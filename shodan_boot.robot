@@ -20,7 +20,6 @@ Prepare Machine
     Execute Command             path set ${ROOTDIR}
     Execute Script              ${SCRIPT}
     Execute Command             cpu0 IsHalted false
-    Execute Command             cpu1 IsHalted false
     Set Default Uart Timeout    300
 
 
@@ -34,7 +33,7 @@ Shodan Smoke Test
     ${sel4uart}=                Create Terminal Tester        ${UART1}
     Start Emulation
 
-    Wait For Line On Uart       OpenTitan initialisation complete.               testerId=${tockuart}
+    Wait For Line On Uart       Booting sel4 from TockOS app done!               testerId=${tockuart}
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}           testerId=${sel4uart}
     Write Line To Uart          test_mlexecute      testerId=${sel4uart}
