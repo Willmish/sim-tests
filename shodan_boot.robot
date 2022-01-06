@@ -8,7 +8,7 @@ Resource                        ${RENODEKEYWORDS}
 *** Variables ***
 ${LOG_TIMEOUT}                   1
 ${ROOTDIR}                       @${CURDIR}/../..
-${SCRIPT}                        sim/config/shodan_all.resc
+${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        KATA>
 ${UART0}                         sysbus.uart0
 ${UART1}                         sysbus.uart1
