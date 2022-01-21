@@ -14,6 +14,7 @@ ${UART0}                         sysbus.uart0
 ${UART1}                         sysbus.uart1
 ${UART2}                         sysbus.uart2
 ${UART3}                         sysbus.uart3
+${UART5}                         sysbus.uart5
 
 *** Keywords ***
 Prepare Machine
@@ -30,7 +31,7 @@ Shodan Smoke Test
     Prepare Machine
     Create Log Tester           ${LOG_TIMEOUT}
     ${tockuart}=                Create Terminal Tester        ${UART0}
-    ${sel4uart}=                Create Terminal Tester        ${UART1}
+    ${sel4uart}=                Create Terminal Tester        ${UART5}
     Start Emulation
 
     Wait For Line On Uart       Booting sel4 from TockOS app done!               testerId=${tockuart}
