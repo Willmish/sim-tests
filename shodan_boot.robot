@@ -19,6 +19,7 @@ ${UART5}                         sysbus.uart5
 *** Keywords ***
 Prepare Machine
     Execute Command             path set ${ROOTDIR}
+    Execute Command             \$gdb_port = 3333
     Execute Script              ${SCRIPT}
     Execute Command             cpu0 IsHalted false
     Set Default Uart Timeout    300
