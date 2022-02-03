@@ -34,7 +34,7 @@ Shodan Smoke Test
     ${sel4uart}=                Create Terminal Tester        ${UART5}
     Start Emulation
 
-    Wait For Line On Uart       Booting sel4 from TockOS app done!               testerId=${tockuart}
+    Wait For Line On Uart       SMC started, waiting on mailbox to clear               testerId=${tockuart}
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}           testerId=${sel4uart}
     Write Line To Uart          test_mlexecute      testerId=${sel4uart}
