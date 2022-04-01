@@ -6,7 +6,7 @@ Test Teardown                   Test Teardown
 Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
-${LOG_TIMEOUT}                   1
+${LOG_TIMEOUT}                   2
 ${ROOTDIR}                       @${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        KATA>
