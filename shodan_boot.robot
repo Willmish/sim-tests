@@ -42,3 +42,5 @@ Shodan Smoke Test
     Write Line to Uart          test_mlexecute fubar mobilenet_v1_emitc_static.model  testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                             testerId=${sel4uart}
     Wait For LogEntry           "main returned: ", 0
+    Write Line To Uart          test_timer_blocking 10      testerId=${sel4uart}
+    Wait For LogEntry           Timer completed.
