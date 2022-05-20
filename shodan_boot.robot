@@ -36,7 +36,9 @@ Shodan Smoke Test
 
     Wait For Line On Uart       load_sel4() completed successfully               testerId=${tockuart}
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
-    Wait For Prompt On Uart     ${PROMPT}           testerId=${sel4uart}
-    Write Line To Uart          test_mlexecute      testerId=${sel4uart}
-    Wait For Prompt On Uart     ${PROMPT}           testerId=${sel4uart}
+    Wait For Prompt On Uart     ${PROMPT}                                        testerId=${sel4uart}
+    Write Line To Uart          install mobilenet_v1_emitc_static.model          testerId=${sel4uart}
+    Wait For Prompt On Uart     Bundle "fubar" installed                              testerId=${sel4uart}
+    Write Line to Uart          test_mlexecute fubar mobilenet_v1_emitc_static.model  testerId=${sel4uart}
+    Wait For Prompt On Uart     ${PROMPT}                                             testerId=${sel4uart}
     Wait For LogEntry           "main returned: ", 0
