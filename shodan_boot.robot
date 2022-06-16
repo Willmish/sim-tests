@@ -38,8 +38,8 @@ Shodan Smoke Test
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                        testerId=${sel4uart}
     Write Line To Uart          install mobilenet_v1_emitc_static.model          testerId=${sel4uart}
-    Wait For Prompt On Uart     Bundle "fake.24" installed                       testerId=${sel4uart}
-    Write Line to Uart          test_mlexecute fake.24 mobilenet_v1_emitc_static.model  testerId=${sel4uart}
+    Wait For Prompt On Uart     Bundle "fake.26" installed                       testerId=${sel4uart}
+    Write Line to Uart          test_mlexecute fake.26 mobilenet_v1_emitc_static.model  testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                             testerId=${sel4uart}
     Wait For LogEntry           "main returned: ", 0
     Write Line To Uart          test_timer_blocking 10      testerId=${sel4uart}
