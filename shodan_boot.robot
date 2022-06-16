@@ -20,6 +20,8 @@ ${UART5}                         sysbus.uart5
 Prepare Machine
     Execute Command             path set ${ROOTDIR}
     Execute Script              ${SCRIPT}
+# Add UART5 virtual time so we can check the machine execution time
+    Execute Command             uart5-analyzer TimestampFormat Virtual
     Execute Command             cpu0 IsHalted false
     Set Default Uart Timeout    300
 
@@ -38,9 +40,11 @@ Shodan Smoke Test
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                        testerId=${sel4uart}
     Write Line To Uart          install mobilenet_v1_emitc_static.model          testerId=${sel4uart}
-    Wait For Prompt On Uart     Bundle "fake.26" installed                       testerId=${sel4uart}
-    Write Line to Uart          test_mlexecute fake.26 mobilenet_v1_emitc_static.model  testerId=${sel4uart}
+# Bundle ID needs to be retrieved at runtime
+    ${l}=  Wait For Line On Uart    Bundle "fake.(\\d+)" installed               testerId=${sel4uart}  treatAsRegex=true
+    Write Line to Uart          test_mlexecute fake.${l.groups[0]} mobilenet_v1_emitc_static.model     testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                             testerId=${sel4uart}
     Wait For LogEntry           "main returned: ", 0
+# Test timer
     Write Line To Uart          test_timer_blocking 10      testerId=${sel4uart}
     Wait For LogEntry           Timer completed.
