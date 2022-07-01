@@ -7,7 +7,8 @@ Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
 ${UART}                         sysbus.uart0
-${ROOTDIR}                      @${CURDIR}/../..
+${SHODAN_DIR}                   ${CURDIR}/../..
+${ROOTDIR}                      @${SHODAN_DIR}
 ${AES_BIN}                      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aes_smoketest_fpga_nexysvideo.elf
 ${UART_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/uart_smoketest_fpga_nexysvideo.elf
 ${HMAC_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/hmac_smoketest_fpga_nexysvideo.elf
@@ -21,6 +22,12 @@ ${TIMER_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/
 ${RESET_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_smoketest_fpga_nexysvideo.elf
 ${SW_RESET_BIN}                 ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_sw_req_test_fpga_nexysvideo.elf
 ${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_nexysvideo.elf
+${OTP_VMEM}                     ${SHODAN_DIR}/out/tmp/otp_img_smoketest.vmem
+${LC_TRANSITION}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_transition_test_fpga_nexysvideo.elf
+${LC_OTP_CFG}                   ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_otp_hw_cfg_test_fpga_nexysvideo.elf
+
+${OTP_IMG_SCRIPT}               ${SHODAN_DIR}/hw/opentitan-upstream/util/design/gen-otp-img.py
+${OTP_IMG_CFG}                  ${SHODAN_DIR}/sim/tests/otp_ctrl_img_smoketest.hjson
 
 ${LEDS}=    SEPARATOR=
 ...  """                                     ${\n}
@@ -52,6 +59,9 @@ Setup Machine
     Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
     Execute Command             sysbus LoadELF ${BOOT_ROM_BIN}
     Execute Command             sysbus LoadELF ${HELLO_WORLD_BIN}
+    Run Process                 mkdir   -p      ${SHODAN_DIR}/out/tmp
+    Run Process                 python3     ${OTP_IMG_SCRIPT}  --img-cfg   ${OTP_IMG_CFG}  --out   ${OTP_VMEM}
+    Execute Command             sysbus.otp_ctrl LoadVMem @${OTP_VMEM}
     Execute Command             sysbus.cpu0 PC 0x00008084
 
     Create Terminal Tester      ${UART}
@@ -172,6 +182,12 @@ Should Pass Reset Smoketest
 
 Should Pass Software Reset Test
     Run Smoketest               ${SW_RESET_BIN}
+
+Should Pass Life Cycle Transition Test
+    Run Smoketest               ${LC_TRANSITION}
+
+Should Pass Life Cycle Otp Config Test
+    Run Smoketest               ${LC_OTP_CFG}
 
 Should Pass AES Smoketest With Scrambled Boot ROM Vmem
     Run Smoketest With Scrambled Boot ROM Vmem      ${AES_BIN}
