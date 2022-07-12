@@ -25,6 +25,7 @@ ${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/
 ${OTP_VMEM}                     ${SHODAN_DIR}/out/tmp/otp_img_smoketest.vmem
 ${LC_TRANSITION}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_transition_test_fpga_nexysvideo.elf
 ${LC_OTP_CFG}                   ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_otp_hw_cfg_test_fpga_nexysvideo.elf
+${CSRNG_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/csrng_smoketest_fpga_nexysvideo.elf
 
 ${OTP_IMG_SCRIPT}               ${SHODAN_DIR}/hw/opentitan-upstream/util/design/gen-otp-img.py
 ${OTP_IMG_CFG}                  ${SHODAN_DIR}/sim/tests/otp_ctrl_img_smoketest.hjson
@@ -188,6 +189,9 @@ Should Pass Life Cycle Transition Test
 
 Should Pass Life Cycle Otp Config Test
     Run Smoketest               ${LC_OTP_CFG}
+
+Should Pass CSRNG Smoketest
+    Run Smoketest               ${CSRNG_BIN}
 
 Should Pass AES Smoketest With Scrambled Boot ROM Vmem
     Run Smoketest With Scrambled Boot ROM Vmem      ${AES_BIN}
