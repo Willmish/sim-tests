@@ -39,10 +39,11 @@ Shodan Smoke Test
     Wait For Line On Uart       load_sel4() completed successfully               testerId=${tockuart}
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                        testerId=${sel4uart}
-    Write Line To Uart          install mobilenet_v1_emitc_static.model          testerId=${sel4uart}
+# TODO (b/241254202): Revert back to use emitc_static model
+    Write Line To Uart          install mobilenet_v1_bytecode_static.model          testerId=${sel4uart}
 # Bundle ID needs to be retrieved at runtime
     ${l}=  Wait For Line On Uart    Bundle "fake.(\\d+)" installed               testerId=${sel4uart}  treatAsRegex=true
-    Write Line to Uart          test_mlexecute fake.${l.groups[0]} mobilenet_v1_emitc_static.model     testerId=${sel4uart}
+    Write Line to Uart          test_mlexecute fake.${l.groups[0]} mobilenet_v1_bytecode_static.model     testerId=${sel4uart}
     Wait For Prompt On Uart     ${PROMPT}                                             testerId=${sel4uart}
     Wait For LogEntry           "main returned: ", 0
 # Test timer
