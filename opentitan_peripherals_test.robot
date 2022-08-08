@@ -55,7 +55,7 @@ ${LEDS}=    SEPARATOR=
 *** Keywords ***
 Setup Machine
     Execute Command             mach create
-    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/opentitan-earlgrey-gen.repl
+    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/platforms/opentitan-earlgrey-gen.repl
     Execute Command             showAnalyzer ${UART}
     Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
     Execute Command             sysbus LoadELF ${BOOT_ROM_BIN}
@@ -70,7 +70,7 @@ Setup Machine
 
 Setup Machine Without Boot ROM
     Execute Command             mach create
-    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/opentitan-earlgrey-gen.repl
+    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/platforms/opentitan-earlgrey-gen.repl
     Execute Command             showAnalyzer ${UART}
     Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
     Execute Command             sysbus LoadELF $bin
