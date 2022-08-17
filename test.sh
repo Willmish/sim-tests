@@ -7,7 +7,7 @@ fi
 
 set -u # Treat unset params as errors.
 
-RENODE_DIR="${OUT}/host/renode"
+RENODE_DIR="${CACHE}/renode"
 TESTS_RESULTS="${OUT}/renode_test_results"
 
 source "${RENODE_DIR}/tests/common.sh"
