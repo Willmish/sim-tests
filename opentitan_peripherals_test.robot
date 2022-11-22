@@ -1,3 +1,5 @@
+*** Comments ***
+Tests for OpenTitan built at hw/opentitan-upstream
 *** Settings ***
 Suite Setup                     Setup
 Suite Teardown                  Teardown
@@ -9,26 +11,33 @@ Resource                        ${RENODEKEYWORDS}
 ${UART}                         sysbus.uart0
 ${SHODAN_DIR}                   ${CURDIR}/../..
 ${ROOTDIR}                      @${SHODAN_DIR}
-${AES_BIN}                      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aes_smoketest_fpga_nexysvideo.elf
-${UART_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/uart_smoketest_fpga_nexysvideo.elf
-${HMAC_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/hmac_smoketest_fpga_nexysvideo.elf
-${KMAC_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_smoketest_fpga_nexysvideo.elf
-${KMAC_CSHAKE_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_mode_cshake_test_fpga_nexysvideo.elf
-${KMAC_KMAC_BIN}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_mode_kmac_test_fpga_nexysvideo.elf
-${FLASH_CTRL_BIN}               ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/flash_ctrl_test_fpga_nexysvideo.elf
-${BOOT_ROM_BIN}                 ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/boot_rom/boot_rom_fpga_nexysvideo.elf
-${BOOT_ROM_SCR_VMEM}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/boot_rom/boot_rom_fpga_nexysvideo.scr.39.vmem
-${TIMER_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rv_timer_smoketest_fpga_nexysvideo.elf
-${RESET_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_smoketest_fpga_nexysvideo.elf
-${SW_RESET_BIN}                 ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_sw_req_test_fpga_nexysvideo.elf
-${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_nexysvideo.elf
-${OTP_VMEM}                     ${SHODAN_DIR}/out/tmp/otp_img_smoketest.vmem
-${LC_TRANSITION}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_transition_test_fpga_nexysvideo.elf
-${LC_OTP_CFG}                   ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_otp_hw_cfg_test_fpga_nexysvideo.elf
-${CSRNG_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/csrng_smoketest_fpga_nexysvideo.elf
+${AES_BIN}                      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aes_smoketest_prog_fpga_cw310
+${CSRNG_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/csrng_smoketest_prog_fpga_cw310
+${FLASH_CTRL_BIN}               ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/flash_ctrl_test_prog_fpga_cw310
+${GPIO_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/gpio_smoketest_prog_fpga_cw310
+${HMAC_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/hmac_smoketest_prog_fpga_cw310
+${KMAC_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_smoketest_prog_fpga_cw310
+${KMAC_CSHAKE_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_mode_cshake_test_prog_fpga_cw310
+${KMAC_KMAC_BIN}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/kmac_mode_kmac_test_prog_fpga_cw310
+${LC_OTP_CFG}                   ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/lc_ctrl_otp_hw_cfg_test_prog_fpga_cw310
+${RESET_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_smoketest_prog_fpga_cw310
+${SW_RESET_BIN}                 ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rstmgr_sw_req_test_prog_fpga_cw310
+${TEST_ROM_SCR_VMEM}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/boot_rom/test_rom_fpga_cw310.scr.39.vmem
+${TIMER_BIN}                    ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/rv_timer_smoketest_prog_fpga_cw310
+${UART_BIN}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/uart_smoketest_prog_fpga_cw310
+${ALERT_HANDLER}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/alert_renode_test_prog_fpga_cw310
+${ALERT_HANDLER_PING}           ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/alert_handler_ping_timeout_test_prog_fpga_cw310
+${SPI_HOST}                     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/spi_host_smoketest_prog_fpga_cw310
+${AON_TIMER_IRQ_BIN}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_irq_test_prog_fpga_cw310
+${AON_TIMER_WDOG_SLEEP_BIN}     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_sleep_wdog_sleep_pause_test_prog_fpga_cw310
+${AON_TIMER_BIN}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_smoketest_prog_fpga_cw310
+${AON_TIMER_WDOG_BITE_BIN}      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_wdog_bite_reset_test_prog_fpga_cw310
+
+${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_cw310.elf
 
 ${OTP_IMG_SCRIPT}               ${SHODAN_DIR}/hw/opentitan-upstream/util/design/gen-otp-img.py
 ${OTP_IMG_CFG}                  ${SHODAN_DIR}/sim/tests/otp_ctrl_img_smoketest.hjson
+${OTP_VMEM}                     ${SHODAN_DIR}/out/opentitan/sw/build-out/sw/device/otp_img/otp_img_smoketest.vmem
 
 ${LEDS}=    SEPARATOR=
 ...  """                                     ${\n}
@@ -52,57 +61,51 @@ ${LEDS}=    SEPARATOR=
 ...  led7: Miscellaneous.LED @ gpio 15       ${\n}
 ...  """
 
+${SPI_FLASH}=    SEPARATOR=
+...  """                                     ${\n}
+...  spi_flash: Memory.MappedMemory          ${\n}
+...  ${SPACE*4}size: 0x1000000               ${\n}
+...                                          ${\n}
+...  mt25q: SPI.Micron_MT25Q @ spi_host0 0   ${\n}
+...  ${SPACE*4}underlyingMemory: spi_flash   ${\n}
+...  """
+
 *** Keywords ***
 Setup Machine
-    Execute Command             mach create
-    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/platforms/opentitan-earlgrey-gen.repl
+    Execute Command             path set ${ROOTDIR}
+    Execute Command             using sysbus
+    Execute Command             mach create "EarlGrey"
+    Execute Command             include @sim/config/shodan_infrastructure/AddressRangeStub.cs
+    Execute Command             machine LoadPlatformDescription @sim/config/platforms/opentitan-earlgrey-cw310.repl
     Execute Command             showAnalyzer ${UART}
+    Execute Command             sysbus SilenceRange <0x40050000 0x2000>
     Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
-    Execute Command             sysbus LoadELF ${BOOT_ROM_BIN}
-    Execute Command             sysbus LoadELF ${HELLO_WORLD_BIN}
-    Run Process                 mkdir   -p      ${SHODAN_DIR}/out/tmp
-    Run Process                 python3     ${OTP_IMG_SCRIPT}  --img-cfg   ${OTP_IMG_CFG}  --out   ${OTP_VMEM}
-    Execute Command             sysbus.otp_ctrl LoadVMem @${OTP_VMEM}
-    Execute Command             sysbus.cpu0 PC 0x00008084
+    Execute Command             machine LoadPlatformDescriptionFromString ${SPI_FLASH}
+    Execute Command             sysbus.otp_ctrl LoadVmem @${OTP_VMEM}
+    Execute Command             rom_ctrl LoadVmem ${TEST_ROM_SCR_VMEM}
 
-    Create Terminal Tester      ${UART}
     Set Default Uart Timeout    1
-
-Setup Machine Without Boot ROM
-    Execute Command             mach create
-    Execute Command             machine LoadPlatformDescription ${ROOTDIR}/sim/config/platforms/opentitan-earlgrey-gen.repl
-    Execute Command             showAnalyzer ${UART}
-    Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
-    Execute Command             sysbus LoadELF $bin
-
     Create Terminal Tester      ${UART}
-    Set Default Uart Timeout    1
 
-Load Scrambled Boot ROM Vmem
-    Execute Command             sysbus.rom_ctrl LoadVmem ${BOOT_ROM_SCR_VMEM}
-    Execute Command             sysbus.cpu0 PC 0x00008084
-
-Run Smoketest
+Run Test
     [Arguments]                 ${bin}
     Execute Command             $bin=${bin}
     Setup Machine
     Execute Command             sysbus LoadELF $bin
-    Start Emulation
-
-    Wait For Line On UART       PASS
-
-Run Smoketest With Scrambled Boot ROM Vmem
-    [Arguments]                 ${bin}
-    Execute Command             $bin=${bin}
-    Setup Machine Without Boot ROM
-    Load Scrambled Boot ROM Vmem
+    Execute Command             cpu0 PC 0x00008084
     Start Emulation
 
     Wait For Line On UART       PASS
 
 *** Test Cases ***
+
+Build OTP Image
+    Run Process                 python3  ${OTP_IMG_SCRIPT}  --img-cfg  ${OTP_IMG_CFG}  --out   ${OTP_VMEM}
+
 Should Print To Uart
     Setup Machine
+    Execute Command             sysbus LoadELF ${HELLO_WORLD_BIN}
+    Execute Command             cpu0 PC 0x00008084
     Start Emulation
 
     Wait For Line On Uart       The LEDs show the ASCII code of the last character.
@@ -116,6 +119,9 @@ Should Echo On Uart
 
     Provides                    working-uart
 
+# This test is can only work with hello-world patched with LED fix.
+# Output pins are configured to 0x00FF: https://github.com/lowRISC/opentitan/blob/1e86ba2a238dc26c2111d325ee7645b0e65058e5/sw/device/examples/hello_world/hello_world.c#L66 ,
+# while chars are outputed to 0xFF00: https://github.com/lowRISC/opentitan/blob/1e86ba2a238dc26c2111d325ee7645b0e65058e5/sw/device/examples/demos.c#L88
 Should Display Output on GPIO
     Requires                    working-uart
 
@@ -155,67 +161,61 @@ Should Display Output on GPIO
     Execute Command             led7 AssertState false 0.2
 
 Should Pass AES Smoketest
-    Run Smoketest               ${AES_BIN}
+    Run Test               ${AES_BIN}
 
 Should Pass UART Smoketest
-    Run Smoketest               ${UART_BIN}
+    Run Test               ${UART_BIN}
 
 Should Pass HMAC Smoketest
-    Run Smoketest               ${HMAC_BIN}
+    Run Test               ${HMAC_BIN}
 
 Should Pass Flash Smoketest
-    Run Smoketest               ${FLASH_CTRL_BIN}
+    Run Test               ${FLASH_CTRL_BIN}
 
 Should Pass Timer Smoketest
-    Run Smoketest               ${TIMER_BIN}
+    Run Test               ${TIMER_BIN}
 
 Should Pass KMAC Smoketest
-    Run Smoketest               ${KMAC_BIN}
+    Run Test               ${KMAC_BIN}
 
 Should Pass KMAC CSHAKE Mode
-    Run Smoketest               ${KMAC_CSHAKE_BIN}
+    Run Test               ${KMAC_CSHAKE_BIN}
 
 Should Pass KMAC KMAC Mode
-    Run Smoketest               ${KMAC_KMAC_BIN}
+    Run Test               ${KMAC_KMAC_BIN}
 
 Should Pass Reset Smoketest
-    Run Smoketest               ${RESET_BIN}
+    Run Test               ${RESET_BIN}
 
 Should Pass Software Reset Test
-    Run Smoketest               ${SW_RESET_BIN}
+    Run Test               ${SW_RESET_BIN}
 
-Should Pass Life Cycle Transition Test
-    Run Smoketest               ${LC_TRANSITION}
-
-Should Pass Life Cycle Otp Config Test
-    Run Smoketest               ${LC_OTP_CFG}
+Should Pass Life Cycle Smoketest
+    Run Test               ${LC_OTP_CFG}
 
 Should Pass CSRNG Smoketest
-    Run Smoketest               ${CSRNG_BIN}
+    Run Test               ${CSRNG_BIN}
 
-Should Pass AES Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${AES_BIN}
+Should Pass GPIO Smoketest
+    Run Test               ${GPIO_BIN}
 
-Should Pass UART Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${UART_BIN}
+Should Pass Alert Handler Smoketest
+    Run Test               ${ALERT_HANDLER}
 
-Should Pass HMAC Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${HMAC_BIN}
+Should Pass Alert Handler Ping Smoketest
+    Run Test               ${ALERT_HANDLER_PING}
 
-Should Pass Flash Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${FLASH_CTRL_BIN}
+Should Pass SPI Host Smoketest
+    Run Test               ${SPI_HOST}
 
-Should Pass KMAC Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${KMAC_BIN}
+Should Pass Aon Timer Interrupt Smoketest
+    Run Test               ${AON_TIMER_IRQ_BIN}
 
-Should Pass KMAC CSHAKE Mode With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${KMAC_CSHAKE_BIN}
+Should Pass Aon Timer Watchdog Sleep Pause Smoketest
+    Run Test               ${AON_TIMER_WDOG_SLEEP_BIN}
 
-Should Pass KMAC KMAC Mode With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${KMAC_KMAC_BIN}
+Should Pass Aon Timer Smoketest
+    Run Test               ${AON_TIMER_BIN}
 
-Should Pass Reset Smoketest With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${RESET_BIN}
-
-Should Pass Software Reset Test With Scrambled Boot ROM Vmem
-    Run Smoketest With Scrambled Boot ROM Vmem      ${SW_RESET_BIN}
+Should Pass Aon Timer Watchdog Bite Reset Smoketest
+    Run Test               ${AON_TIMER_WDOG_BITE_BIN}
