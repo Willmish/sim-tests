@@ -11,7 +11,7 @@ Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
 ${LOG_TIMEOUT}                   2
-${ROOTDIR}                       @${CURDIR}/../..
+${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
 ${UART0}                         sysbus.uart0
 ${UART1}                         sysbus.uart1
@@ -19,11 +19,18 @@ ${UART2}                         sysbus.uart2
 ${UART3}                         sysbus.uart3
 ${UART5}                         sysbus.uart5
 
+${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
+${SEL4TEST_KERNEL_RELEASE}       ${ROOTDIR}/out/sel4test/riscv32-unknown-elf/release/kernel/kernel.elf
+${SEL4TEST_ROOTSERVER_RELEASE}   ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/release/apps/sel4test-driver/sel4test-driver
+${OUT_TMP}                       ${ROOTDIR}/out/tmp
+
+${FLASH_TAR}                     out/sel4test-wrapper/riscv32-unknown-elf/release/ext_flash.tar
+
 *** Keywords ***
 Prepare Machine
-    Execute Command             path set ${ROOTDIR}
-    Execute Command             $tar=@out/sel4test-wrapper/riscv32-unknown-elf/release/ext_flash.tar
-    Execute Command             $kernel=@out/sel4test-wrapper/riscv32-unknown-elf/release/kernel/kernel.elf
+    Execute Command             path set @${ROOTDIR}
+    Execute Command             $tar=@${FLASH_TAR}
+    Execute Command             $kernel=@${SEL4TEST_KERNEL_RELEASE}
     Execute Command             $cpio=@/dev/null
     Execute Script              ${SCRIPT}
 # Add UART5 virtual time so we can check the machine execution time
@@ -33,9 +40,18 @@ Prepare Machine
 
 
 *** Test Cases ***
+Prepare Flash Tarball
+    Run Process                 mkdir  -p   ${ROOTDIR}/out/tmp
+    Run Process                 ln  -sfr  ${MATCHA_BUNDLE_RELEASE}        ${OUT_TMP}/matcha-tock-bundle
+    Run Process                 ln  -sfr  ${SEL4TEST_KERNEL_RELEASE}      ${OUT_TMP}/kernel
+    Run Process                 ln  -sfr  ${SEL4TEST_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
+    Run Process                 tar  -C  ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle  kernel  capdl-loader
+    Provides                    initialization
+
 Shodan seL4test with Rust syscall wrappers
     [Documentation]             Test TockOS boot, seL4 boot and sel4test
     [Tags]                      tock seL4 sel4test uart
+    Requires                    initialization
     Prepare Machine
     Create Log Tester           ${LOG_TIMEOUT}
     ${tockuart}=                Create Terminal Tester        ${UART0}
