@@ -32,6 +32,9 @@ ${AON_TIMER_IRQ_BIN}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/
 ${AON_TIMER_WDOG_SLEEP_BIN}     ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_sleep_wdog_sleep_pause_test_prog_fpga_cw310
 ${AON_TIMER_BIN}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_smoketest_prog_fpga_cw310
 ${AON_TIMER_WDOG_BITE_BIN}      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/aon_timer_wdog_bite_reset_test_prog_fpga_cw310
+${ENTROPY_SRC_AST_REQ_BIN}      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_ast_rng_req_test_prog_fpga_cw310
+${ENTROPY_SRC_FW_OVR_BIN}       ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_fw_ovr_test_prog_fpga_cw310
+${ENTROPY_SRC_KAT_BIN}          ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_kat_test_prog_fpga_cw310
 
 ${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_cw310.elf
 
@@ -228,3 +231,12 @@ Should Try To Reset On The System Reset Control Combo
     Execute Command        sysbus.sysrst_ctrl WriteDoubleWord 0x30 0x40  # Invert the pwrButton input
     # Expect error as this should work only when done by CPU
     Wait For Log Entry     Couldn't find the cpu requesting reset.
+
+Should Pass Entropy Source Analog Sensor Top Request Smoketest
+    Run Test               ${ENTROPY_SRC_AST_REQ_BIN}
+
+Should Pass Entropy Source Firmware Override Smoketest
+    Run Test               ${ENTROPY_SRC_FW_OVR_BIN}
+
+Should Pass Entropy Source Known Answer Test Smoketest
+    Run Test               ${ENTROPY_SRC_KAT_BIN}
