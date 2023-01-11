@@ -35,6 +35,7 @@ ${AON_TIMER_WDOG_BITE_BIN}      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/
 ${ENTROPY_SRC_AST_REQ_BIN}      ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_ast_rng_req_test_prog_fpga_cw310
 ${ENTROPY_SRC_FW_OVR_BIN}       ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_fw_ovr_test_prog_fpga_cw310
 ${ENTROPY_SRC_KAT_BIN}          ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/entropy_src_kat_test_prog_fpga_cw310
+${SRAM_CTRL_BIN}                ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests/sram_ctrl_smoketest_prog_fpga_cw310
 
 ${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_cw310.elf
 
@@ -240,3 +241,6 @@ Should Pass Entropy Source Firmware Override Smoketest
 
 Should Pass Entropy Source Known Answer Test Smoketest
     Run Test               ${ENTROPY_SRC_KAT_BIN}
+
+Should Pass SRAM Controller Smoketest
+    Run Test               ${SRAM_CTRL_BIN}
