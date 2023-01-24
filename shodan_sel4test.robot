@@ -20,17 +20,17 @@ ${UART3}                         sysbus.uart3
 ${UART5}                         sysbus.uart5
 
 ${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${SEL4TEST_KERNEL_RELEASE}       ${ROOTDIR}/out/sel4test/riscv32-unknown-elf/release/kernel/kernel.elf
-${SEL4TEST_ROOTSERVER_RELEASE}   ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/release/apps/sel4test-driver/sel4test-driver
+${SEL4TEST_KERNEL}               ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/debug/kernel/kernel.elf
+${SEL4TEST_ROOTSERVER}           ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/debug/apps/sel4test-driver/sel4test-driver
 ${OUT_TMP}                       ${ROOTDIR}/out/tmp
 
-${FLASH_TAR}                     out/sel4test-wrapper/riscv32-unknown-elf/release/ext_flash.tar
+${FLASH_TAR}                     out/sel4test-wrapper/riscv32-unknown-elf/debug/ext_flash.tar
 
 *** Keywords ***
 Prepare Machine
     Execute Command             path set @${ROOTDIR}
     Execute Command             $tar=@${FLASH_TAR}
-    Execute Command             $kernel=@${SEL4TEST_KERNEL_RELEASE}
+    Execute Command             $kernel=@${SEL4TEST_KERNEL}
     Execute Command             $cpio=@/dev/null
     Execute Script              ${SCRIPT}
 # Add UART5 virtual time so we can check the machine execution time
@@ -45,8 +45,8 @@ Prepare Flash Tarball
     Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle
     Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
     Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
-    Run Process                 ln  -sfr  ${SEL4TEST_KERNEL_RELEASE}      ${OUT_TMP}/kernel
-    Run Process                 ln  -sfr  ${SEL4TEST_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
+    Run Process                 ln  -sfr  ${SEL4TEST_KERNEL}              ${OUT_TMP}/kernel
+    Run Process                 ln  -sfr  ${SEL4TEST_ROOTSERVER}          ${OUT_TMP}/capdl-loader
     Run Process                 tar  -C  ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
     Provides                    initialization
 
