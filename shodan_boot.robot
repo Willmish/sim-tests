@@ -53,10 +53,12 @@ Uninstall App
 *** Test Cases ***
 Prepare Flash Tarball
     Run Process                 mkdir  -p    ${ROOTDIR}/out/tmp
-    Run Process                 ln     -sfr  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle
+    Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle
+    Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
+    Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
     Run Process                 ln     -sfr  ${CANTRIP_KERNEL_RELEASE}      ${OUT_TMP}/kernel
     Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
-    Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle  kernel  capdl-loader
+    Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
     Provides                    flash-tarball
 
 
