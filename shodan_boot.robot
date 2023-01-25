@@ -6,6 +6,10 @@ Test Teardown                   Test Teardown
 Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
+# This variable is set to be 0 by default, and should be override in CLI to test debug
+# sim/tests/test.sh --variable RUN_DEBUG:1 sim/tests/shodan_boot.robot
+${RUN_DEBUG}                     0
+
 ${LOG_TIMEOUT}                   2
 ${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
@@ -13,18 +17,31 @@ ${PROMPT}                        CANTRIP>
 ${UART5}                         sysbus.uart5
 
 ${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
+${MATCHA_BUNDLE_DEBUG}           ${ROOTDIR}/out/matcha-bundle-debug.elf
+
 ${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/kernel/kernel.elf
 ${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/capdl-loader
+
+${CANTRIP_KERNEL_DEBUG}          ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/debug/kernel/kernel.elf
+${CANTRIP_ROOTSERVER_DEBUG}      ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/debug/capdl-loader
+
 ${OUT_TMP}                       ${ROOTDIR}/out/tmp
 
-${FLASH_TAR}                     out/ext_flash_release.tar
-${CPIO}                          out/cantrip/riscv32-unknown-elf/release/ext_builtins.cpio
+${FLASH_RELEASE_TAR}             out/ext_flash_release.tar
+${CPIO_RELEASE}                  out/cantrip/riscv32-unknown-elf/release/ext_builtins.cpio
+${FLASH_DEBUG_TAR}               out/ext_flash_debug.tar
+${CPIO_DEBUG}                    out/cantrip/riscv32-unknown-elf/debug/ext_builtins.cpio
 
 *** Keywords ***
 Prepare Machine
     Execute Command             path set @${ROOTDIR}
-    Execute Command             $tar=@${FLASH_TAR}
-    Execute Command             $cpio=@${CPIO}
+    IF      ${RUN_DEBUG} == 1
+      Execute Command             $tar=@${FLASH_DEBUG_TAR}
+      Execute Command             $cpio=@${CPIO_DEBUG}
+    ELSE
+      Execute Command             $tar=@${FLASH_RELEASE_TAR}
+      Execute Command             $cpio=@${CPIO_RELEASE}
+    END
     Execute Script              ${SCRIPT}
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
@@ -53,12 +70,22 @@ Uninstall App
 *** Test Cases ***
 Prepare Flash Tarball
     Run Process                 mkdir  -p    ${ROOTDIR}/out/tmp
-    Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle
-    Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
-    Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
-    Run Process                 ln     -sfr  ${CANTRIP_KERNEL_RELEASE}      ${OUT_TMP}/kernel
-    Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
-    Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
+
+    IF     ${RUN_DEBUG} == 1
+      Run Process                 cp     -f  ${MATCHA_BUNDLE_DEBUG}       ${OUT_TMP}/matcha-tock-bundle-debug
+      Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-debug
+      Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-debug  ${OUT_TMP}/matcha-tock-bundle.bin
+      Run Process                 ln     -sfr  ${CANTRIP_KERNEL_DEBUG}      ${OUT_TMP}/kernel
+      Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_DEBUG}  ${OUT_TMP}/capdl-loader
+      Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_DEBUG_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
+    ELSE
+      Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle-release
+      Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-release
+      Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-release  ${OUT_TMP}/matcha-tock-bundle.bin
+      Run Process                 ln     -sfr  ${CANTRIP_KERNEL_RELEASE}      ${OUT_TMP}/kernel
+      Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
+      Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_RELEASE_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
+    END
     Provides                    flash-tarball
 
 
@@ -94,6 +121,7 @@ Test C hello app (no SDK)
     Wait For Line On Uart       Done
     Uninstall App               hello
 
+# TODO(sleffler): This test failed with debug artifacts.
 Test SDK keyval support (+SecurityCoordinator)
     Requires                    shodan-bootup
     Install App                 keyval
