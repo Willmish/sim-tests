@@ -7,7 +7,7 @@ Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
 # This variable is set to be 0 by default, and should be override in CLI to test debug
-# sim/tests/test.sh --variable RUN_DEBUG:1 sim/tests/shodan_boot.robot
+# sim/tests/test.sh --debug sim/tests/shodan_boot.robot
 ${RUN_DEBUG}                     0
 
 ${LOG_TIMEOUT}                   2

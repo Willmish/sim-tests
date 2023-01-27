@@ -16,6 +16,17 @@ STTY_CONFIG=$(stty -g 2>/dev/null)
 
 ARGS=(
     -u "$(get_path "${RENODE_DIR}/tests/run_tests.py")"
+)
+
+if [[ $1 == "--debug" ]]; then
+  echo "Running debug artifacts"
+  shift
+  ARGS+=(
+    --variable "RUN_DEBUG:1"
+  )
+fi
+
+ARGS+=(
     --exclude "skip_${DETECTED_OS}"
     -r "$(get_path "${TESTS_RESULTS}")"
     --robot-framework-remote-server-full-directory "${RENODE_DIR}/bin"
