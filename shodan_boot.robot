@@ -38,9 +38,11 @@ Prepare Machine
     IF      ${RUN_DEBUG} == 1
       Execute Command             $tar=@${FLASH_DEBUG_TAR}
       Execute Command             $cpio=@${CPIO_DEBUG}
+      Execute Command             $kernel=@{CANTRIP_KERNEL_DEBUG}
     ELSE
       Execute Command             $tar=@${FLASH_RELEASE_TAR}
       Execute Command             $cpio=@${CPIO_RELEASE}
+      Execute Command             $kernel=@{CANTRIP_KERNEL_RELEASE}
     END
     Execute Script              ${SCRIPT}
     # Add UART5 virtual time so we can check the machine execution time
