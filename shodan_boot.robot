@@ -58,7 +58,8 @@ Install App
     Write Line To Uart          install ${app}.app
     Wait For Line on Uart       Application "${app}" installed
     Write Line To Uart          start ${app}
-    Wait For Line On Uart       Bundle "${app}" started
+    # NB: don't 'Wait For Line On Uart       Bundle "${app}" started' as this races
+    #    against the app-generated output that is waited for below
 
 Uninstall App
     [Arguments]                 ${app}
@@ -179,10 +180,10 @@ Test SDK + MlCoordinator (oneshot & periodic)
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
-    Write Line To Uart          install mltest.app
-    Wait For Line On Uart       Application "mltest" installed
     Write Line To Uart          install mobilenet_v1_emitc_static.model
     Wait For Line On Uart       Model "mobilenet_v1_emitc_static" installed
+    Write Line To Uart          install mltest.app
+    Wait For Line On Uart       Application "mltest" installed
     Write Line to Uart          start mltest
     Wait For Line On Uart       sdk_model_oneshot(nonexistent) returned Err(SDKNoSuchModel) (as expected)
     # start oneshot
