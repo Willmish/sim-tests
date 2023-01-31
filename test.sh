@@ -26,6 +26,14 @@ if [[ $1 == "--debug" ]]; then
   )
 fi
 
+if [[ $1 == "--wrapper" ]]; then
+  echo "Running sel4test+wrapper artifacts"
+  shift
+  ARGS+=(
+    --variable "RUN_WRAPPER:1"
+  )
+fi
+
 ARGS+=(
     --exclude "skip_${DETECTED_OS}"
     -r "$(get_path "${TESTS_RESULTS}")"
