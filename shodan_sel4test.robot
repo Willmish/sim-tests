@@ -2,12 +2,8 @@
 # Takes ~15 mins (wall time) on a cloudtop
 # TODO: need build target to just build artifacts
 
-*** Settings ***
-Suite Setup                     Setup
-Suite Teardown                  Teardown
-Test Setup                      Reset Emulation
-Test Teardown                   Test Teardown
-Resource                        ${RENODEKEYWORDS}
+*** Comments***
+seL4 tests running on shodan system.
 
 *** Variables ***
 # Run sel4test+wrapper (sel4test + Rust syscall wrappers) instead of sel4test

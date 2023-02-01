@@ -1,11 +1,5 @@
 *** Comments ***
 Tests for OpenTitan built at hw/opentitan-upstream
-*** Settings ***
-Suite Setup                     Setup
-Suite Teardown                  Teardown
-Test Setup                      Reset Emulation
-Test Teardown                   Test Teardown
-Resource                        ${RENODEKEYWORDS}
 
 *** Variables ***
 ${UART}                         sysbus.uart0

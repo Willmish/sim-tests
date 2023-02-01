@@ -1,9 +1,5 @@
-*** Settings ***
-Suite Setup                     Setup
-Suite Teardown                  Teardown
-Test Setup                      Reset Emulation
-Test Teardown                   Test Teardown
-Resource                        ${RENODEKEYWORDS}
+*** Comments ***
+Tests for shodan system from bootup to running apps.
 
 *** Variables ***
 # This variable is set to be 0 by default, and should be override in CLI to test debug
