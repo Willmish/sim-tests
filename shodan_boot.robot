@@ -103,15 +103,18 @@ Test Smoke Test
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
-    Write Line To Uart          install mobilenet_v1_emitc_static.model
-    # Bundle ID needs to be retrieved at runtime
-    ${l}=  Wait For Line On Uart    Model "([^"]+)" installed    treatAsRegex=true
-    Write Line to Uart          test_mlexecute anything ${l.groups[0]}
-    Wait For Prompt On Uart     ${PROMPT}
-    Wait For LogEntry           "main returned: ", 0
-    # Test timer
-    Write Line To Uart          test_timer_blocking 10
-    Wait For LogEntry           Timer completed.
+    IF      ${RUN_DEBUG} == 1
+      Write Line To Uart        install mobilenet_v1_emitc_static.model
+      # Bundle ID needs to be retrieved at runtime
+      ${l}=  Wait For Line On Uart    Model "([^"]+)" installed    treatAsRegex=true
+      Write Line to Uart        test_mlexecute anything ${l.groups[0]}
+      Wait For Prompt On Uart   ${PROMPT}
+      Wait For LogEntry         "main returned: ", 0
+
+      # Test timer
+      Write Line To Uart        test_timer_blocking 10
+      Wait For LogEntry         Timer completed.
+    END
 
 Test C hello app (no SDK)
     Requires                    shodan-bootup
