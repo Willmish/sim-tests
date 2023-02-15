@@ -7,6 +7,7 @@ Tests for shodan system from bootup to running apps.
 ${RUN_DEBUG}                     0
 
 ${LOG_TIMEOUT}                   2
+${DEBUG_LOG_TIMEOUT}             10
 ${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        CANTRIP>
@@ -35,17 +36,19 @@ Prepare Machine
       Execute Command             $tar=@${FLASH_DEBUG_TAR}
       Execute Command             $cpio=@${CPIO_DEBUG}
       Execute Command             $kernel=@${CANTRIP_KERNEL_DEBUG}
+      Set Default Uart Timeout    20
+      Create Log Tester           ${DEBUG_LOG_TIMEOUT}
     ELSE
       Execute Command             $tar=@${FLASH_RELEASE_TAR}
       Execute Command             $cpio=@${CPIO_RELEASE}
       Execute Command             $kernel=@${CANTRIP_KERNEL_RELEASE}
+      Set Default Uart Timeout    10
+      Create Log Tester           ${LOG_TIMEOUT}
     END
     Execute Script              ${SCRIPT}
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
     Execute Command             cpu0 IsHalted false
-    Set Default Uart Timeout    10
-    Create Log Tester           ${LOG_TIMEOUT}
 
 Install App
     [Arguments]                 ${app}
