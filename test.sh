@@ -34,6 +34,14 @@ if [[ $1 == "--wrapper" ]]; then
   )
 fi
 
+if [[ $1 == "--no-echo-check" ]]; then
+  echo "Disable UART input echo check"
+  shift
+  ARGS+=(
+    --variable "NO_UART_ECHO:1"
+  )
+fi
+
 ARGS+=(
     --exclude "skip_${DETECTED_OS}"
     -r "$(get_path "${TESTS_RESULTS}")"

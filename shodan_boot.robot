@@ -6,6 +6,11 @@ Tests for shodan system from bootup to running apps.
 # sim/tests/test.sh --debug sim/tests/shodan_boot.robot
 ${RUN_DEBUG}                     0
 
+${WAIT_ECHO}                     true
+IF      ${NO_UART_ECHO} == 1
+  ${WAIT_ECHO}                   false
+END
+
 ${LOG_TIMEOUT}                   2
 ${DEBUG_LOG_TIMEOUT}             10
 ${ROOTDIR}                       ${CURDIR}/../..
@@ -56,13 +61,13 @@ Install App
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Disable uart5 timestamp diff
     Execute Command             uart5-analyzer TimestampFormat None
-    Write Line To Uart          start ${app}
+    Write Line To Uart          start ${app}          waitForEcho=${WAIT_ECHO}
     # NB: don't 'Wait For Line On Uart       Bundle "${app}" started' as this races
     #    against the app-generated output that is waited for below
 
 Uninstall App
     [Arguments]                 ${app}
-    Write Line To Uart          stop ${app}
+    Write Line To Uart          stop ${app}           waitForEcho=${WAIT_ECHO}
     Wait For Line On Uart       Bundle "${app}" stopped
 
 *** Test Cases ***
@@ -103,8 +108,7 @@ Test Smoke Test
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
     IF      ${RUN_DEBUG} == 1
-      Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static
-      Wait For Prompt On Uart   ${PROMPT}
+      Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static       waitForEcho=${WAIT_ECHO}
       Wait For LogEntry         "main returned: ", 0
 
       # Test timer
@@ -177,7 +181,7 @@ Test SDK + MlCoordinator (oneshot & periodic)
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
-    Write Line to Uart          start mltest
+    Write Line to Uart          start mltest                                    waitForEcho=${WAIT_ECHO}
     Wait For Line On Uart       sdk_model_oneshot(nonexistent) returned Err(SDKNoSuchModel) (as expected)
     # start oneshot
     Wait For Line On Uart       mobilenet_v1_emitc_static started
@@ -191,5 +195,5 @@ Test SDK + MlCoordinator (oneshot & periodic)
       Wait For Line On Uart     Model completed: mask 0b0001
     END
     Wait For Line On Uart       DONE
-    Write Line To Uart          stop mltest
+    Write Line To Uart          stop mltest                                     waitForEcho=${WAIT_ECHO}
     Wait For Line On Uart       Bundle "mltest" stopped
