@@ -56,8 +56,6 @@ Install App
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Disable uart5 timestamp diff
     Execute Command             uart5-analyzer TimestampFormat None
-    Write Line To Uart          install ${app}.app
-    Wait For Line on Uart       Application "${app}" installed
     Write Line To Uart          start ${app}
     # NB: don't 'Wait For Line On Uart       Bundle "${app}" started' as this races
     #    against the app-generated output that is waited for below
@@ -66,8 +64,6 @@ Uninstall App
     [Arguments]                 ${app}
     Write Line To Uart          stop ${app}
     Wait For Line On Uart       Bundle "${app}" stopped
-    Write Line To Uart          uninstall ${app}
-    Wait For Line On Uart       Bundle "${app}" uninstalled
 
 *** Test Cases ***
 Prepare Flash Tarball
@@ -107,9 +103,6 @@ Test Smoke Test
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
     IF      ${RUN_DEBUG} == 1
-      Write Line To Uart        install mobilenet_v1_emitc_static.model
-      # Bundle ID needs to be retrieved at runtime
-      ${l}=  Wait For Line On Uart    Model "([^"]+)" installed    treatAsRegex=true
       Write Line to Uart        test_mlexecute anything ${l.groups[0]}
       Wait For Prompt On Uart   ${PROMPT}
       Wait For LogEntry         "main returned: ", 0
@@ -184,10 +177,6 @@ Test SDK + MlCoordinator (oneshot & periodic)
     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
-    Write Line To Uart          install mobilenet_v1_emitc_static.model
-    Wait For Line On Uart       Model "mobilenet_v1_emitc_static" installed
-    Write Line To Uart          install mltest.app
-    Wait For Line On Uart       Application "mltest" installed
     Write Line to Uart          start mltest
     Wait For Line On Uart       sdk_model_oneshot(nonexistent) returned Err(SDKNoSuchModel) (as expected)
     # start oneshot
@@ -204,7 +193,3 @@ Test SDK + MlCoordinator (oneshot & periodic)
     Wait For Line On Uart       DONE
     Write Line To Uart          stop mltest
     Wait For Line On Uart       Bundle "mltest" stopped
-    Write Line To Uart          uninstall mltest
-    Wait For Line On Uart       Bundle "mltest" uninstalled
-    Write Line To Uart          uninstall mobilenet_v1_emitc_static
-    Wait For Line On Uart       Bundle "mobilenet_v1_emitc_static" uninstalled
