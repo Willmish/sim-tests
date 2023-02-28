@@ -103,7 +103,7 @@ Test Smoke Test
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
     IF      ${RUN_DEBUG} == 1
-      Write Line to Uart        test_mlexecute anything ${l.groups[0]}
+      Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static
       Wait For Prompt On Uart   ${PROMPT}
       Wait For LogEntry         "main returned: ", 0
 
