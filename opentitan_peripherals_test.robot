@@ -84,7 +84,6 @@ Setup Machine
     Execute Command             include @sim/config/shodan_infrastructure/AddressRangeStub.cs
     Execute Command             machine LoadPlatformDescription @sim/config/platforms/opentitan-earlgrey-cw310.repl
     Execute Command             showAnalyzer ${UART}
-    Execute Command             sysbus SilenceRange <0x40050000 0x2000>
     Execute Command             machine LoadPlatformDescriptionFromString ${LEDS}
     Execute Command             machine LoadPlatformDescriptionFromString ${SPI_FLASH}
     Execute Command             sysbus.otp_ctrl LoadVmem @${OTP_VMEM}
@@ -370,4 +369,3 @@ Should Pass OTBN Simple Smoketest Test
     Wide Register Should Be Equal   29  0x4f0d4b819f24f0c164341d3c26628bdb5763bcdf63388709e0654fefeb0953c2
     Wide Register Should Be Equal   30  0x2167f87de9ee7ac7ffa3d88bab123192aee492924efa2ec9b55098e068ba2fa1
     Wide Register Should Be Equal   31  0x37adadaef9dbff5e738800755466a52c67a8c2216978ad1b257694340f09b7c8
-
