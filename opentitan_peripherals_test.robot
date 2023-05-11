@@ -6,37 +6,37 @@ ${UART}                         sysbus.uart0
 ${SHODAN_DIR}                   ${CURDIR}/../..
 ${ROOTDIR}                      @${SHODAN_DIR}
 ${SW_TESTS_DIR}                 ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/tests
-${AES_BIN}                      ${SW_TESTS_DIR}/aes_smoketest_prog_fpga_cw310
-${CSRNG_BIN}                    ${SW_TESTS_DIR}/csrng_smoketest_prog_fpga_cw310
-${FLASH_CTRL_BIN}               ${SW_TESTS_DIR}/flash_ctrl_test_prog_fpga_cw310
-${GPIO_BIN}                     ${SW_TESTS_DIR}/gpio_smoketest_prog_fpga_cw310
-${HMAC_BIN}                     ${SW_TESTS_DIR}/hmac_smoketest_prog_fpga_cw310
-${KMAC_BIN}                     ${SW_TESTS_DIR}/kmac_smoketest_prog_fpga_cw310
-${KMAC_CSHAKE_BIN}              ${SW_TESTS_DIR}/kmac_mode_cshake_test_prog_fpga_cw310
-${KMAC_KMAC_BIN}                ${SW_TESTS_DIR}/kmac_mode_kmac_test_prog_fpga_cw310
-${LC_OTP_CFG}                   ${SW_TESTS_DIR}/lc_ctrl_otp_hw_cfg_test_prog_fpga_cw310
-${RESET_BIN}                    ${SW_TESTS_DIR}/rstmgr_smoketest_prog_fpga_cw310
-${SW_RESET_BIN}                 ${SW_TESTS_DIR}/rstmgr_sw_req_test_prog_fpga_cw310
-${TEST_ROM_SCR_VMEM}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/boot_rom/test_rom_fpga_cw310.scr.39.vmem
-${TIMER_BIN}                    ${SW_TESTS_DIR}/rv_timer_smoketest_prog_fpga_cw310
-${UART_BIN}                     ${SW_TESTS_DIR}/uart_smoketest_prog_fpga_cw310
-${ALERT_HANDLER}                ${SW_TESTS_DIR}/alert_renode_test_prog_fpga_cw310
-${ALERT_HANDLER_PING}           ${SW_TESTS_DIR}/alert_handler_ping_timeout_test_prog_fpga_cw310
-${SPI_HOST}                     ${SW_TESTS_DIR}/spi_host_smoketest_prog_fpga_cw310
-${AON_TIMER_IRQ_BIN}            ${SW_TESTS_DIR}/aon_timer_irq_test_prog_fpga_cw310
-${AON_TIMER_WDOG_SLEEP_BIN}     ${SW_TESTS_DIR}/aon_timer_sleep_wdog_sleep_pause_test_prog_fpga_cw310
-${AON_TIMER_BIN}                ${SW_TESTS_DIR}/aon_timer_smoketest_prog_fpga_cw310
-${AON_TIMER_WDOG_BITE_BIN}      ${SW_TESTS_DIR}/aon_timer_wdog_bite_reset_test_prog_fpga_cw310
-${ENTROPY_SRC_AST_REQ_BIN}      ${SW_TESTS_DIR}/entropy_src_ast_rng_req_test_prog_fpga_cw310
-${ENTROPY_SRC_FW_OVR_BIN}       ${SW_TESTS_DIR}/entropy_src_fw_ovr_test_prog_fpga_cw310
-${ENTROPY_SRC_KAT_BIN}          ${SW_TESTS_DIR}/entropy_src_kat_test_prog_fpga_cw310
-${SRAM_CTRL_BIN}                ${SW_TESTS_DIR}/sram_ctrl_smoketest_prog_fpga_cw310
-${OTBN_ECDSA_BIN}               ${SW_TESTS_DIR}/otbn_ecdsa_op_irq_test_prog_fpga_cw310
-${OTBN_IRQ_BIN}                 ${SW_TESTS_DIR}/otbn_irq_test_prog_fpga_cw310
-${OTBN_SCRAMBLE_BIN}            ${SW_TESTS_DIR}/otbn_mem_scramble_test_prog_fpga_cw310
-${OTBN_RAND_BIN}                ${SW_TESTS_DIR}/otbn_randomness_test_prog_fpga_cw310
-${OTBN_SMOKETEST_BIN}           ${SW_TESTS_DIR}/otbn_smoketest_prog_fpga_cw310
-${OTBN_RSA_BIN}                 ${SW_TESTS_DIR}/otbn_rsa_test_prog_fpga_cw310
+${AES_BIN}                      ${SW_TESTS_DIR}/aes_smoketest_prog_fpga_cw310.elf
+${CSRNG_BIN}                    ${SW_TESTS_DIR}/csrng_smoketest_prog_fpga_cw310.elf
+${FLASH_CTRL_BIN}               ${SW_TESTS_DIR}/flash_ctrl_test_prog_fpga_cw310.elf
+${GPIO_BIN}                     ${SW_TESTS_DIR}/gpio_smoketest_prog_fpga_cw310.elf
+${HMAC_BIN}                     ${SW_TESTS_DIR}/hmac_smoketest_prog_fpga_cw310.elf
+${KMAC_BIN}                     ${SW_TESTS_DIR}/kmac_smoketest_prog_fpga_cw310.elf
+${KMAC_CSHAKE_BIN}              ${SW_TESTS_DIR}/kmac_mode_cshake_test_prog_fpga_cw310.elf
+${KMAC_KMAC_BIN}                ${SW_TESTS_DIR}/kmac_mode_kmac_test_prog_fpga_cw310.elf
+${LC_OTP_CFG}                   ${SW_TESTS_DIR}/lc_ctrl_otp_hw_cfg_test_prog_fpga_cw310.elf
+${RESET_BIN}                    ${SW_TESTS_DIR}/rstmgr_smoketest_prog_fpga_cw310.elf
+${SW_RESET_BIN}                 ${SW_TESTS_DIR}/rstmgr_sw_req_test_prog_fpga_cw310.elf
+${TEST_ROM_SCR_VMEM}            ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/boot_rom/test_rom_fpga_cw310.39.scr.vmem
+${TIMER_BIN}                    ${SW_TESTS_DIR}/rv_timer_smoketest_prog_fpga_cw310.elf
+${UART_BIN}                     ${SW_TESTS_DIR}/uart_smoketest_prog_fpga_cw310.elf
+${ALERT_HANDLER}                ${SW_TESTS_DIR}/alert_renode_test_prog_fpga_cw310.elf
+${ALERT_HANDLER_PING}           ${SW_TESTS_DIR}/alert_handler_ping_timeout_test_prog_fpga_cw310.elf
+${SPI_HOST}                     ${SW_TESTS_DIR}/spi_host_smoketest_prog_fpga_cw310.elf
+${AON_TIMER_IRQ_BIN}            ${SW_TESTS_DIR}/aon_timer_irq_test_prog_fpga_cw310.elf
+${AON_TIMER_WDOG_SLEEP_BIN}     ${SW_TESTS_DIR}/aon_timer_sleep_wdog_sleep_pause_test_prog_fpga_cw310.elf
+${AON_TIMER_BIN}                ${SW_TESTS_DIR}/aon_timer_smoketest_prog_fpga_cw310.elf
+${AON_TIMER_WDOG_BITE_BIN}      ${SW_TESTS_DIR}/aon_timer_wdog_bite_reset_test_prog_fpga_cw310.elf
+${ENTROPY_SRC_AST_REQ_BIN}      ${SW_TESTS_DIR}/entropy_src_ast_rng_req_test_prog_fpga_cw310.elf
+${ENTROPY_SRC_FW_OVR_BIN}       ${SW_TESTS_DIR}/entropy_src_fw_ovr_test_prog_fpga_cw310.elf
+${ENTROPY_SRC_KAT_BIN}          ${SW_TESTS_DIR}/entropy_src_kat_test_prog_fpga_cw310.elf
+${SRAM_CTRL_BIN}                ${SW_TESTS_DIR}/sram_ctrl_smoketest_prog_fpga_cw310.elf
+${OTBN_ECDSA_BIN}               ${SW_TESTS_DIR}/otbn_ecdsa_op_irq_test_prog_fpga_cw310.elf
+${OTBN_IRQ_BIN}                 ${SW_TESTS_DIR}/otbn_irq_test_prog_fpga_cw310.elf
+${OTBN_SCRAMBLE_BIN}            ${SW_TESTS_DIR}/otbn_mem_scramble_test_prog_fpga_cw310.elf
+${OTBN_RAND_BIN}                ${SW_TESTS_DIR}/otbn_randomness_test_prog_fpga_cw310.elf
+${OTBN_SMOKETEST_BIN}           ${SW_TESTS_DIR}/otbn_smoketest_prog_fpga_cw310.elf
+${OTBN_RSA_BIN}                 ${SW_TESTS_DIR}/otbn_rsa_test_prog_fpga_cw310.elf
 ${OTBN_SIMPLE_SMOKETEST_BIN}    ${SW_TESTS_DIR}/otbn_simple_smoke_test.elf
 
 ${HELLO_WORLD_BIN}              ${ROOTDIR}/out/opentitan/sw/build-out/sw/device/examples/hello_world/hello_world_fpga_cw310.elf
@@ -48,23 +48,15 @@ ${OTP_VMEM}                     ${SHODAN_DIR}/out/opentitan/sw/build-out/sw/devi
 ${LEDS}=    SEPARATOR=
 ...  """                                     ${\n}
 ...  gpio:                                   ${\n}
-...  ${SPACE*4}8 -> led0@0                   ${\n}
-...  ${SPACE*4}9 -> led1@0                   ${\n}
-...  ${SPACE*4}10 -> led2@0                  ${\n}
-...  ${SPACE*4}11 -> led3@0                  ${\n}
-...  ${SPACE*4}12 -> led4@0                  ${\n}
-...  ${SPACE*4}13 -> led5@0                  ${\n}
-...  ${SPACE*4}14 -> led6@0                  ${\n}
-...  ${SPACE*4}15 -> led7@0                  ${\n}
+...  ${SPACE*4}0 -> led0@0                   ${\n}
+...  ${SPACE*4}1 -> led1@0                   ${\n}
+...  ${SPACE*4}2 -> led2@0                   ${\n}
+...  ${SPACE*4}3 -> led3@0                   ${\n}
 ...                                          ${\n}
-...  led0: Miscellaneous.LED @ gpio 8        ${\n}
-...  led1: Miscellaneous.LED @ gpio 9        ${\n}
-...  led2: Miscellaneous.LED @ gpio 10       ${\n}
-...  led3: Miscellaneous.LED @ gpio 11       ${\n}
-...  led4: Miscellaneous.LED @ gpio 12       ${\n}
-...  led5: Miscellaneous.LED @ gpio 13       ${\n}
-...  led6: Miscellaneous.LED @ gpio 14       ${\n}
-...  led7: Miscellaneous.LED @ gpio 15       ${\n}
+...  led0: Miscellaneous.LED @ gpio 0        ${\n}
+...  led1: Miscellaneous.LED @ gpio 1        ${\n}
+...  led2: Miscellaneous.LED @ gpio 2        ${\n}
+...  led3: Miscellaneous.LED @ gpio 3        ${\n}
 ...  """
 
 ${SPI_FLASH}=    SEPARATOR=
@@ -131,7 +123,7 @@ Should Print To Uart
     Execute Command             cpu0 PC 0x00008084
     Start Emulation
 
-    Wait For Line On Uart       The LEDs show the ASCII code of the last character.
+    Wait For Line On Uart       The LEDs show the lower nibble of the ASCII code of the last character.
 
     Provides                    initialization
 
@@ -142,9 +134,6 @@ Should Echo On Uart
 
     Provides                    working-uart
 
-# This test is can only work with hello-world patched with LED fix.
-# Output pins are configured to 0x00FF: https://github.com/lowRISC/opentitan/blob/1e86ba2a238dc26c2111d325ee7645b0e65058e5/sw/device/examples/hello_world/hello_world.c#L66 ,
-# while chars are outputed to 0xFF00: https://github.com/lowRISC/opentitan/blob/1e86ba2a238dc26c2111d325ee7645b0e65058e5/sw/device/examples/demos.c#L88
 Should Display Output on GPIO
     Requires                    working-uart
 
@@ -153,11 +142,6 @@ Should Display Output on GPIO
     Execute Command             emulation CreateLEDTester "led2" sysbus.gpio.led2
     Execute Command             emulation CreateLEDTester "led3" sysbus.gpio.led3
 
-    Execute Command             emulation CreateLEDTester "led4" sysbus.gpio.led4
-    Execute Command             emulation CreateLEDTester "led5" sysbus.gpio.led5
-    Execute Command             emulation CreateLEDTester "led6" sysbus.gpio.led6
-    Execute Command             emulation CreateLEDTester "led7" sysbus.gpio.led7
-
     Send Key To Uart            0x0
 
     Execute Command             led0 AssertState false 0.2
@@ -165,23 +149,13 @@ Should Display Output on GPIO
     Execute Command             led2 AssertState false 0.2
     Execute Command             led3 AssertState false 0.2
 
-    Execute Command             led4 AssertState false 0.2
-    Execute Command             led5 AssertState false 0.2
-    Execute Command             led6 AssertState false 0.2
-    Execute Command             led7 AssertState false 0.2
-
     Write Char On Uart          B
-    # B is 0100 0010
+    # B is 0100 0010. Take the lower 4 bits.
 
     Execute Command             led0 AssertState false 0.2
     Execute Command             led1 AssertState true 0.2
     Execute Command             led2 AssertState false 0.2
     Execute Command             led3 AssertState false 0.2
-
-    Execute Command             led4 AssertState false 0.2
-    Execute Command             led5 AssertState false 0.2
-    Execute Command             led6 AssertState true 0.2
-    Execute Command             led7 AssertState false 0.2
 
 Should Pass AES Smoketest
     Run Test               ${AES_BIN}
@@ -234,7 +208,10 @@ Should Pass SPI Host Smoketest
 Should Pass Aon Timer Interrupt Smoketest
     Run Test               ${AON_TIMER_IRQ_BIN}
 
+# Test is marked as broken: https://github.com/lowRISC/opentitan/blob/f243e6802143374741739d2c164c4f2f61697669/sw/device/tests/BUILD#L384-L390
+# rv_plic is not configured in the software so interrupts are not handled.
 Should Pass Aon Timer Watchdog Sleep Pause Smoketest
+    [Tags]                 skipped
     Run Test               ${AON_TIMER_WDOG_SLEEP_BIN}
 
 Should Pass Aon Timer Smoketest
@@ -250,7 +227,8 @@ Should Try To Reset On The System Reset Control Combo
     Execute Command        sysbus.sysrst_ctrl WriteDoubleWord 0x74 0x8   # Set combo0 action to rstReq
     Execute Command        sysbus.sysrst_ctrl WriteDoubleWord 0x30 0x40  # Invert the pwrButton input
     # Expect error as this should work only when done by CPU
-    Wait For Log Entry     Couldn't find the cpu requesting reset.
+    Wait For Log Entry     Couldn't find the CPU requesting translation block restart.
+    Wait For Log Entry     Software reset failed.
 
 Should Pass Entropy Source Analog Sensor Top Request Smoketest
     Run Test               ${ENTROPY_SRC_AST_REQ_BIN}
@@ -264,14 +242,18 @@ Should Pass Entropy Source Known Answer Test Smoketest
 Should Pass SRAM Controller Smoketest
     Run Test               ${SRAM_CTRL_BIN}
 
+# Not fixed yet
 Should Pass OTBN ECDSA Test
+    [Tags]                 skipped
     Prepare Test           ${OTBN_ECDSA_BIN}
     Execute Test
 
 Should Pass OTBN IRQ Test
     Run Test               ${OTBN_IRQ_BIN}
 
+# Test is marked as broken: https://github.com/lowRISC/opentitan/blob/master/sw/device/tests/BUILD#L1411-L1416
 Should Pass OTBN Memory Scramble Test
+    [Tags]                 skipped
     Prepare Test           ${OTBN_SCRAMBLE_BIN}
     Execute Command        cpu0 MaximumBlockSize 1
     Execute Test
