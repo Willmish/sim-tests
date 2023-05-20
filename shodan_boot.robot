@@ -41,6 +41,7 @@ Prepare Machine
       Execute Command             $tar=@${FLASH_DEBUG_TAR}
       Execute Command             $cpio=@${CPIO_DEBUG}
       Execute Command             $kernel=@${CANTRIP_KERNEL_DEBUG}
+      Execute Command             $repl_file=@sim/config/platforms/shodan-debug.repl
       Set Default Uart Timeout    20
       Create Log Tester           ${DEBUG_LOG_TIMEOUT}
     ELSE
