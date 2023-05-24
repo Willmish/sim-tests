@@ -99,4 +99,5 @@ Test Shodan Boot
       END
 
       Write Line to Uart          mdebug
+      Wait For Prompt On Uart     ${PROMPT}
     END
