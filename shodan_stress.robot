@@ -53,7 +53,7 @@ Test Shodan Boot
     Prepare Machine
     Start Emulation
     Create Terminal Tester      ${UART5}
-    Wait For Prompt On Uart     ${PROMPT}
+    Wait For Prompt On Uart     EOF
 
     FOR    ${iter}    IN RANGE    ${MAX_ITER}
       IF     ${{random.randint(0, 2)}} == 0

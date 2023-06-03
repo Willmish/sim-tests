@@ -98,7 +98,7 @@ Test Shodan Boot
     Prepare Machine
     Start Emulation
     Create Terminal Tester      ${UART5}
-    Wait For Prompt On Uart     ${PROMPT}
+    Wait For Prompt On Uart     EOF
     # The following commented lines would cause the test failed to be saved.
     Provides                    shodan-bootup
 
