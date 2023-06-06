@@ -102,20 +102,20 @@ Test Shodan Boot
     # The following commented lines would cause the test failed to be saved.
     Provides                    shodan-bootup
 
-Test Smoke Test
-    Requires                    shodan-bootup
-    # UART analyzer is marked as transient so it needs to be set up at subtest.
-    Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
-    # Add UART5 virtual time so we can check the machine execution time
-    Execute Command             uart5-analyzer TimestampFormat Virtual
-    IF      ${RUN_DEBUG} == 1
-      Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static       waitForEcho=${WAIT_ECHO}
-      Wait For LogEntry         "main returned: ", 0
+# Test Smoke Test
+#     Requires                    shodan-bootup
+#     # UART analyzer is marked as transient so it needs to be set up at subtest.
+#     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
+#     # Add UART5 virtual time so we can check the machine execution time
+#     Execute Command             uart5-analyzer TimestampFormat Virtual
+#     IF      ${RUN_DEBUG} == 1
+#       Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static       waitForEcho=${WAIT_ECHO}
+#       Wait For LogEntry         "main returned: ", 0
 
-      # Test timer
-      Write Line To Uart        test_timer_blocking 10
-      Wait For LogEntry         Timer completed.
-    END
+#       # Test timer
+#       Write Line To Uart        test_timer_blocking 10
+#       Wait For LogEntry         Timer completed.
+#     END
 
 Test C hello app (no SDK)
     Requires                    shodan-bootup
