@@ -239,9 +239,7 @@ Should Pass Entropy Source Known Answer Test Smoketest
 Should Pass SRAM Controller Smoketest
     Run Test               ${SRAM_CTRL_BIN}
 
-# Not fixed yet
 Should Pass OTBN ECDSA Test
-    [Tags]                 skipped
     Prepare Test           ${OTBN_ECDSA_BIN}
     Execute Test
 
