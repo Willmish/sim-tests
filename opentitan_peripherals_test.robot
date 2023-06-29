@@ -240,17 +240,15 @@ Should Pass SRAM Controller Smoketest
     Run Test               ${SRAM_CTRL_BIN}
 
 Should Pass OTBN ECDSA Test
-    Prepare Test           ${OTBN_ECDSA_BIN}
-    Execute Test
+    Run Test           ${OTBN_ECDSA_BIN}
 
 Should Pass OTBN IRQ Test
     Run Test               ${OTBN_IRQ_BIN}
 
-# Test is marked as broken: https://github.com/lowRISC/opentitan/blob/master/sw/device/tests/BUILD#L1411-L1416
 Should Pass OTBN Memory Scramble Test
-    [Tags]                 skipped
     Prepare Test           ${OTBN_SCRAMBLE_BIN}
-    Execute Command        cpu0 MaximumBlockSize 1
+    Execute Command        cpu0 NMIVectorAddress 0x2000047c
+    Execute Command        cpu0 NMIVectorLength 1
     Execute Test
 
 Should Pass OTBN Randomness Test
