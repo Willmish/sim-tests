@@ -185,11 +185,11 @@ Test SDK + MlCoordinator (oneshot & periodic)
     Write Line to Uart          start mltest                                    waitForEcho=${WAIT_ECHO}
     Wait For Line On Uart       sdk_model_oneshot(nonexistent) returned Err(SDKNoSuchModel) (as expected)
     # start oneshot
-    Wait For Line On Uart       mobilenet_v1_emitc_static started
+    Wait For Line On Uart       mobilenet_v1_emitc_static.model started
     Wait For LogEntry           "main returned: ", 0
-    Wait For Line On Uart       mobilenet_v1_emitc_static completed
+    Wait For Line On Uart       mobilenet_v1_emitc_static.model completed
     # start periodic
-    Wait For Line On Uart       Model mobilenet_v1_emitc_static started
+    Wait For Line On Uart       Model mobilenet_v1_emitc_static.model started
     # NB: 10 runs of the model
     FOR    ${i}    IN RANGE    10
       Wait For LogEntry         "main returned: ", 0
