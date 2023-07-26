@@ -75,7 +75,7 @@ Shodan seL4test with Rust syscall wrappers
     ${sel4uart}=                Create Terminal Tester        ${UART5}
     Start Emulation
 
-    Wait For Line On Uart       load_sel4() completed successfully               testerId=${tockuart}
+    Wait For Line On Uart       SEC: Booting seL4 from TockOS app done!          testerId=${tockuart}
     Wait For Line On Uart       Booting all finished, dropped to user space      testerId=${sel4uart}
     Wait For Line On Uart       MCS configuration                                testerId=${sel4uart}
     Wait For Line On Uart       Starting test suite sel4test                     testerId=${sel4uart}
