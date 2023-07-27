@@ -11,13 +11,13 @@ ${PROMPT}                        CANTRIP>
 ${UART5}                         sysbus.uart5
 
 ${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/capdl-loader
+${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/shodan/release/kernel/kernel.elf
+${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/shodan/release/capdl-loader
 
 ${OUT_TMP}                       ${ROOTDIR}/out/tmp
 
-${FLASH_RELEASE_TAR}             out/ext_flash_release.tar
-${CPIO_RELEASE}                  out/cantrip/riscv32-unknown-elf/release/ext_builtins.cpio
+${FLASH_RELEASE_TAR}             out/cantrip/shodan/release/ext_flash.tar
+${CPIO_RELEASE}                  out/cantrip/shodan/release/ext_builtins.cpio
 
 *** Keywords ***
 Prepare Machine
@@ -38,8 +38,9 @@ Stop App
     Wait For Line On Uart       Bundle "${app}" stopped
 
 *** Test Cases ***
+    # NB: must have at least 2x spaces between Run Process arguments!
 Prepare Flash Tarball
-    Run Process                 mkdir  -p    ${ROOTDIR}/out/tmp
+    Run Process                 mkdir  -p    ${OUT_TMP}
     Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle-release
     Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-release
     Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-release  ${OUT_TMP}/matcha-tock-bundle.bin

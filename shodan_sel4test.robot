@@ -21,14 +21,16 @@ ${UART3}                         sysbus.uart3
 ${UART5}                         sysbus.uart5
 
 ${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${SEL4TEST_WRAPPER_KERNEL}       ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/debug/kernel/kernel.elf
-${SEL4TEST_WRAPPER_ROOTSERVER}   ${ROOTDIR}/out/sel4test-wrapper/riscv32-unknown-elf/debug/apps/sel4test-driver/sel4test-driver
-${SEL4TEST_KERNEL}               ${ROOTDIR}/out/sel4test/riscv32-unknown-elf/debug/kernel/kernel.elf
-${SEL4TEST_ROOTSERVER}           ${ROOTDIR}/out/sel4test/riscv32-unknown-elf/debug/apps/sel4test-driver/sel4test-driver
+
 ${OUT_TMP}                       ${ROOTDIR}/out/tmp
 
-${FLASH_WRAPPER_TAR}             out/sel4test-wrapper/riscv32-unknown-elf/debug/ext_flash.tar
-${FLASH_TAR}                     out/sel4test/riscv32-unknown-elf/debug/ext_flash.tar
+${SEL4TEST_WRAPPER_KERNEL}       ${ROOTDIR}/out/sel4test-wrapper/shodan/debug/kernel/kernel.elf
+${SEL4TEST_WRAPPER_ROOTSERVER}   ${ROOTDIR}/out/sel4test-wrapper/shodan/debug/apps/sel4test-driver/sel4test-driver
+${FLASH_WRAPPER_TAR}             out/sel4test-wrapper/shodan/debug/ext_flash.tar
+
+${SEL4TEST_KERNEL}               ${ROOTDIR}/out/sel4test/shodan/debug/kernel/kernel.elf
+${SEL4TEST_ROOTSERVER}           ${ROOTDIR}/out/sel4test/shodan/debug/apps/sel4test-driver/sel4test-driver
+${FLASH_TAR}                     out/sel4test/shodan/debug/ext_flash.tar
 
 *** Keywords ***
 Prepare Machine
@@ -50,17 +52,22 @@ Prepare Machine
 
 *** Test Cases ***
 Prepare Flash Tarball
-    Run Process                 mkdir  -p   ${ROOTDIR}/out/tmp
-    Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle
-    Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
-    Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
+    # NB: must have at least 2x spaces between Run Process arguments!
     IF      ${RUN_WRAPPER} == 1
-      Run Process               ln  -sfr  ${SEL4TEST_WRAPPER_KERNEL}              ${OUT_TMP}/kernel
-      Run Process               ln  -sfr  ${SEL4TEST_WRAPPER_ROOTSERVER}          ${OUT_TMP}/capdl-loader
+      Run Process               mkdir  -p  ${OUT_TMP}
+      Run Process               cp  -f  ${MATCHA_BUNDLE_RELEASE}  ${OUT_TMP}/matcha-tock-bundle
+      Run Process               riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
+      Run Process               riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
+      Run Process               ln  -sfr  ${SEL4TEST_WRAPPER_KERNEL}       ${OUT_TMP}/kernel
+      Run Process               ln  -sfr  ${SEL4TEST_WRAPPER_ROOTSERVER}   ${OUT_TMP}/capdl-loader
       Run Process               tar  -C  ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_WRAPPER_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
     ELSE
-      Run Process               ln  -sfr  ${SEL4TEST_KERNEL}              ${OUT_TMP}/kernel
-      Run Process               ln  -sfr  ${SEL4TEST_ROOTSERVER}          ${OUT_TMP}/capdl-loader
+      Run Process               mkdir  -p  ${OUT_TMP}
+      Run Process               cp  -f  ${MATCHA_BUNDLE_RELEASE}  ${OUT_TMP}/matcha-tock-bundle
+      Run Process               riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle
+      Run Process               riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle  ${OUT_TMP}/matcha-tock-bundle.bin
+      Run Process               ln  -sfr  ${SEL4TEST_KERNEL}       ${OUT_TMP}/kernel
+      Run Process               ln  -sfr  ${SEL4TEST_ROOTSERVER}   ${OUT_TMP}/capdl-loader
       Run Process               tar  -C  ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
     END
     Provides                    initialization

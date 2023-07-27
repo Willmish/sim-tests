@@ -18,21 +18,19 @@ ${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        CANTRIP>
 ${UART5}                         sysbus.uart5
 
-${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${MATCHA_BUNDLE_DEBUG}           ${ROOTDIR}/out/matcha-bundle-debug.elf
-
-${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/release/capdl-loader
-
-${CANTRIP_KERNEL_DEBUG}          ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/debug/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_DEBUG}      ${ROOTDIR}/out/cantrip/riscv32-unknown-elf/debug/capdl-loader
-
 ${OUT_TMP}                       ${ROOTDIR}/out/tmp
 
-${FLASH_RELEASE_TAR}             out/ext_flash_release.tar
-${CPIO_RELEASE}                  out/cantrip/riscv32-unknown-elf/release/ext_builtins.cpio
-${FLASH_DEBUG_TAR}               out/ext_flash_debug.tar
-${CPIO_DEBUG}                    out/cantrip/riscv32-unknown-elf/debug/ext_builtins.cpio
+${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
+${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/shodan/release/kernel/kernel.elf
+${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/shodan/release/capdl-loader
+${FLASH_RELEASE_TAR}             out/cantrip/shodan/release/ext_flash.tar
+${CPIO_RELEASE}                  out/cantrip/shodan/release/ext_builtins.cpio
+
+${MATCHA_BUNDLE_DEBUG}           ${ROOTDIR}/out/matcha-bundle-debug.elf
+${CANTRIP_KERNEL_DEBUG}          ${ROOTDIR}/out/cantrip/shodan/debug/kernel/kernel.elf
+${CANTRIP_ROOTSERVER_DEBUG}      ${ROOTDIR}/out/cantrip/shodan/debug/capdl-loader
+${FLASH_DEBUG_TAR}               out/cantrip/shodan/debug/ext_flash.tar
+${CPIO_DEBUG}                    out/cantrip/shodan/debug/ext_builtins.cpio
 
 *** Keywords ***
 Prepare Machine
@@ -73,7 +71,7 @@ Uninstall App
 
 *** Test Cases ***
 Prepare Flash Tarball
-    Run Process                 mkdir  -p    ${ROOTDIR}/out/tmp
+    Run Process                 mkdir  -p    ${OUT_TMP}
 
     IF     ${RUN_DEBUG} == 1
       Run Process                 cp     -f  ${MATCHA_BUNDLE_DEBUG}       ${OUT_TMP}/matcha-tock-bundle-debug
