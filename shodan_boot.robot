@@ -6,13 +6,15 @@ Tests for shodan system from bootup to running apps.
 # sim/tests/test.sh --debug sim/tests/shodan_boot.robot
 ${RUN_DEBUG}                     0
 
-${WAIT_ECHO}                     true
-IF      ${NO_UART_ECHO} == 1
-  ${WAIT_ECHO}                   false
-END
+# This variable is set to be 0 for renode tests, and should be
+# overridden on CLI to test on the FPGA. Ie:
+# sim/tests/test.sh --fpga 02 sim/tests/shodan_boot.robot
+${FPGA_BOARD_ID}                 0
 
+${WAIT_ECHO}                     true
 ${LOG_TIMEOUT}                   2
 ${DEBUG_LOG_TIMEOUT}             10
+${FPGA_UART_TIMEOUT}             60
 ${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        CANTRIP>

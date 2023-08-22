@@ -5,6 +5,7 @@ Stress test for shodan system.
 ${MAX_ITER}                      100
 
 ${LOG_TIMEOUT}                   2
+${FPGA_UART_TIMEOUT}             60
 ${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
 ${PROMPT}                        CANTRIP>
@@ -59,7 +60,7 @@ Test Shodan Boot
     FOR    ${iter}    IN RANGE    ${MAX_ITER}
       IF     ${{random.randint(0, 2)}} == 0
         Write Line to Uart          start hello
-        Wait For Line On Uart       Done, sleeping in WFI loop
+        Wait For Line On Uart       Done
         Stop App                    hello
       END
 
