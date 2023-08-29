@@ -33,7 +33,7 @@ def OpenSerialPort(device, baudrate, timeout, write_timeout) -> serial.Serial:
     """
     ser = serial.Serial(port=device,
                         timeout=timeout,
-                        write_timeout=write_timeout
+                        write_timeout=write_timeout,
                         baudrate=baudrate)
     if not ser.is_open:
         raise AssertionError(f"Could not open {device}!")
@@ -71,6 +71,8 @@ class FPGALibrary:
         self.timeout = None
         if kwargs.get('timeout'):
             self.timeout = float(kwargs['timeout'])
+        if kwargs.get('quiesce_delay_seconds'):
+            self.quiesce_delay_seconds = float(kwargs['quiesce_delay_seconds'])
 
         self.smc_uart = f"/dev/Nexus-CP210-FPGA-UART-{self.board_id}"
         self.sc_uart = f"/dev/Nexus-FTDI-{self.board_id}-FPGA-UART"
@@ -101,12 +103,15 @@ class FPGALibrary:
         # Loop while there is data available on the port, then delay
         # for a second to make sure we've actually caught all of the
         # incoming data.
-        while port.in_waiting > 0:
+        result = ''
+        while True:
             info(f"_quiesce_input: port.read({port.in_waiting})")
-            result += port.read(port.in_waiting)
-            info("_quiesce_input: sleep(1)")
-            time.sleep(1)
-        info(f"_quiesce_input read: [{result.decode()}]")
+            result += port.read(port.in_waiting).decode()
+            info(f"_quiesce_input: sleep({self.quiesce_delay_seconds})")
+            time.sleep(self.quiesce_delay_seconds)
+            if port.in_waiting == 0:
+                break
+        info(f"_quiesce_input read: [{result}]")
 
     def _write_string_to_uart(self, port, s, wait_for_echo=True) -> None:
         """
@@ -213,11 +218,11 @@ class FPGALibrary:
         Robot keyword. Can be called as Open Serial Ports.
         """
         self.uarts['sc'] = OpenSerialPort(self.sc_uart,
-                                          read_timeout=self.timeout,
+                                          timeout=self.timeout,
                                           write_timeout=self.timeout,
                                           baudrate=115200)
         self.uarts['smc'] = OpenSerialPort(self.smc_uart,
-                                           read_timeout=self.timeout,
+                                           timeout=self.timeout,
                                            write_timeout=self.timeout,
                                            baudrate=115200)
         self.default_uart = self.uarts['smc']
