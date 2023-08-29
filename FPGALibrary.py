@@ -31,6 +31,7 @@ def OpenSerialPort(device, baudrate, timeout, write_timeout) -> serial.Serial:
 
     Throws an AssertionError if it could not open the given device.
     """
+    info(f"OpenSerialPort(dev={device}, baud={baudrate}, timeout={timeout}, wrtimeout={write_timeout}")
     ser = serial.Serial(port=device,
                         timeout=timeout,
                         write_timeout=write_timeout,
@@ -178,8 +179,10 @@ class FPGALibrary:
           port: serial.Serial instance. The port to wait for data from.
           s: string. The string to look for on the port.
         """
+        if not port.is_open:
+          raise AssertionError(f"Port [{port}] not open!")
         result = port.read_until(expected=s.encode('utf-8')).decode()
-        info(f"_wait_for_string_on_uart read: [{result}]")
+        info(f"_wait_for_string_on_uart read: [{result}]({len(result)})")
 
         # Short read likely resulting from a timeout.
         if len(result) < len(s):

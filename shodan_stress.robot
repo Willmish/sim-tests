@@ -13,63 +13,21 @@
 # limitations under the License.
 #
 *** Comments ***
-Stress test for shodan system.
+Tests to stress out the Shodan system in 4MB of RAM using released binaries.
+
+*** Settings ***
+Resource  resources/common.resource
+Variables  variables/common.py
 
 *** Variables ***
 ${MAX_ITER}                      100
-
-${LOG_TIMEOUT}                   2
-${FPGA_UART_TIMEOUT}             60
-${ROOTDIR}                       ${CURDIR}/../..
 ${SCRIPT}                        sim/config/shodan.resc
-${PROMPT}                        CANTRIP>
-${UART5}                         sysbus.uart5
-
-${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/shodan/release/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/shodan/release/capdl-loader
-
-${OUT_TMP}                       ${ROOTDIR}/out/tmp
-
-${FLASH_RELEASE_TAR}             out/cantrip/shodan/release/ext_flash.tar
-${CPIO_RELEASE}                  out/cantrip/shodan/release/ext_builtins.cpio
-
-*** Keywords ***
-Prepare Machine
-    Execute Command             path set @${ROOTDIR}
-    Execute Command             $tar=@${FLASH_RELEASE_TAR}
-    Execute Command             $cpio=@${CPIO_RELEASE}
-    Execute Command             $kernel=@${CANTRIP_KERNEL_RELEASE}
-    Execute Command             $sc_bin=@${OUT_TMP}/matcha-tock-bundle.bin
-    Set Default Uart Timeout    10
-    Create Log Tester           ${LOG_TIMEOUT}
-    Execute Script              ${SCRIPT}
-    # Add UART5 virtual time so we can check the machine execution time
-    Execute Command             uart5-analyzer TimestampFormat Virtual
-    Execute Command             cpu0 IsHalted false
-
-Stop App
-    [Arguments]                 ${app}
-    Write Line To Uart          stop ${app}
-    Wait For Line On Uart       Bundle "${app}" stopped
 
 *** Test Cases ***
-    # NB: must have at least 2x spaces between Run Process arguments!
-Prepare Flash Tarball
-    Run Process                 mkdir  -p    ${OUT_TMP}
-    Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle-release
-    Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-release
-    Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-release  ${OUT_TMP}/matcha-tock-bundle.bin
-    Run Process                 ln     -sfr  ${CANTRIP_KERNEL_RELEASE}      ${OUT_TMP}/kernel
-    Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
-    Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_RELEASE_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
-    Provides                    flash-tarball
-
 Test Shodan Boot
-    Requires                    flash-tarball
     Prepare Machine
     Start Emulation
-    Create Terminal Tester      ${UART5}
+    Create Terminal Tester      ${SMC_UART}
     Wait For Prompt On Uart     EOF
 
     FOR    ${iter}    IN RANGE    ${MAX_ITER}

@@ -16,5 +16,6 @@
 # These variables are defined in the individual robot tests this script is
 # prepended to, and otherwise via command line arguments to the robot test
 # framework.
-Library  FPGALibrary.py  board_id=${FPGA_BOARD_ID}  timeout=${FPGA_UART_TIMEOUT}
+Variables  variables/common_fpga.py
+Library  FPGALibrary.py  board_id=${FPGA_BOARD_ID}  timeout=${LOG_TIMEOUT}  quiesce_delay_seconds=${FPGA_QUIESCE_DELAY_SECONDS}
 

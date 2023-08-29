@@ -28,16 +28,16 @@ source "${RENODE_DIR}/tests/common.sh"
 
 STTY_CONFIG=$(stty -g 2>/dev/null)
 
+BUILD_TYPE=release
 ARGS=(
     -u "$(get_path "${RENODE_DIR}/tests/run_tests.py")"
+    --variable "PLATFORM:${PLATFORM}"
 )
 
 if [[ $1 == "--debug" ]]; then
   echo "Running debug artifacts"
   shift
-  ARGS+=(
-    --variable "RUN_DEBUG:1"
-  )
+  BUILD_TYPE=debug
 fi
 
 if [[ $1 == "--wrapper" ]]; then
@@ -53,6 +53,13 @@ if [[ $1 == "--no-echo-check" ]]; then
   shift
   ARGS+=(
     --variable "WAIT_ECHO:false"
+  )
+fi
+
+if [[ "${BUILD_TYPE}" == "debug" ]]; then
+  ARGS+=(
+    --variable "RUN_DEBUG:1"
+    --variable "BUILD_TYPE:debug"
   )
 fi
 

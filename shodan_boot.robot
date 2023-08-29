@@ -15,122 +15,19 @@
 *** Comments ***
 Tests for shodan system from bootup to running apps.
 
-*** Variables ***
-# This variable is set to be 0 by default, and should be override in CLI to test debug
-# sim/tests/test.sh --debug sim/tests/shodan_boot.robot
-${RUN_DEBUG}                     0
-
-# This variable is set to be 0 for renode tests, and should be
-# overridden on CLI to test on the FPGA. Ie:
-# sim/tests/test.sh --fpga 02 sim/tests/shodan_boot.robot
-${FPGA_BOARD_ID}                 0
-
-${WAIT_ECHO}                     true
-${LOG_TIMEOUT}                   2
-${DEBUG_LOG_TIMEOUT}             10
-${FPGA_UART_TIMEOUT}             60
-${ROOTDIR}                       ${CURDIR}/../..
-${SCRIPT}                        sim/config/shodan.resc
-${PROMPT}                        CANTRIP>
-${UART5}                         sysbus.uart5
-
-${OUT_TMP}                       ${ROOTDIR}/out/tmp
-
-${MATCHA_BUNDLE_RELEASE}         ${ROOTDIR}/out/matcha-bundle-release.elf
-${CANTRIP_KERNEL_RELEASE}        ${ROOTDIR}/out/cantrip/shodan/release/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_RELEASE}    ${ROOTDIR}/out/cantrip/shodan/release/capdl-loader
-${FLASH_RELEASE_TAR}             out/cantrip/shodan/release/ext_flash.tar
-${CPIO_RELEASE}                  out/cantrip/shodan/release/ext_builtins.cpio
-
-${MATCHA_BUNDLE_DEBUG}           ${ROOTDIR}/out/matcha-bundle-debug.elf
-${CANTRIP_KERNEL_DEBUG}          ${ROOTDIR}/out/cantrip/shodan/debug/kernel/kernel.elf
-${CANTRIP_ROOTSERVER_DEBUG}      ${ROOTDIR}/out/cantrip/shodan/debug/capdl-loader
-${FLASH_DEBUG_TAR}               out/cantrip/shodan/debug/ext_flash.tar
-${CPIO_DEBUG}                    out/cantrip/shodan/debug/ext_builtins.cpio
-
-*** Keywords ***
-Prepare Machine
-    Execute Command             path set @${ROOTDIR}
-    IF      ${RUN_DEBUG} == 1
-      Execute Command             $tar=@${FLASH_DEBUG_TAR}
-      Execute Command             $cpio=@${CPIO_DEBUG}
-      Execute Command             $kernel=@${CANTRIP_KERNEL_DEBUG}
-      Execute Command             $repl_file=@sim/config/platforms/shodan-debug.repl
-      Set Default Uart Timeout    20
-      Create Log Tester           ${DEBUG_LOG_TIMEOUT}
-    ELSE
-      Execute Command             $tar=@${FLASH_RELEASE_TAR}
-      Execute Command             $cpio=@${CPIO_RELEASE}
-      Execute Command             $kernel=@${CANTRIP_KERNEL_RELEASE}
-      Set Default Uart Timeout    10
-      Create Log Tester           ${LOG_TIMEOUT}
-    END
-    Execute Command             $sc_bin=@${OUT_TMP}/matcha-tock-bundle.bin
-    Execute Script              ${SCRIPT}
-    # Add UART5 virtual time so we can check the machine execution time
-    Execute Command             uart5-analyzer TimestampFormat Virtual
-    Execute Command             cpu0 IsHalted false
-
-Install App
-    [Arguments]                 ${app}
-    # UART analyzer is marked as transient so it needs to be set up at subtest.
-    Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
-    # Disable uart5 timestamp diff
-    Execute Command             uart5-analyzer TimestampFormat None
-    Write Line To Uart          start ${app}          waitForEcho=${WAIT_ECHO}
-    # NB: don't 'Wait For Line On Uart       Bundle "${app}" started' as this races
-    #    against the app-generated output that is waited for below
-
-Uninstall App
-    [Arguments]                 ${app}
-    Write Line To Uart          stop ${app}           waitForEcho=${WAIT_ECHO}
-    Wait For Line On Uart       Bundle "${app}" stopped
+*** Settings ***
+Resource  resources/common.resource
+Variables  variables/common.py
+Variables  variables/${PLATFORM}_${BUILD_TYPE}.py
 
 *** Test Cases ***
-Prepare Flash Tarball
-    Run Process                 mkdir  -p    ${OUT_TMP}
-
-    IF     ${RUN_DEBUG} == 1
-      Run Process                 cp     -f  ${MATCHA_BUNDLE_DEBUG}       ${OUT_TMP}/matcha-tock-bundle-debug
-      Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-debug
-      Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-debug  ${OUT_TMP}/matcha-tock-bundle.bin
-      Run Process                 ln     -sfr  ${CANTRIP_KERNEL_DEBUG}      ${OUT_TMP}/kernel
-      Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_DEBUG}  ${OUT_TMP}/capdl-loader
-      Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_DEBUG_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
-    ELSE
-      Run Process                 cp     -f  ${MATCHA_BUNDLE_RELEASE}       ${OUT_TMP}/matcha-tock-bundle-release
-      Run Process                 riscv32-unknown-elf-strip  ${OUT_TMP}/matcha-tock-bundle-release
-      Run Process                 riscv32-unknown-elf-objcopy  -O  binary  -g  ${OUT_TMP}/matcha-tock-bundle-release  ${OUT_TMP}/matcha-tock-bundle.bin
-      Run Process                 ln     -sfr  ${CANTRIP_KERNEL_RELEASE}      ${OUT_TMP}/kernel
-      Run Process                 ln     -sfr  ${CANTRIP_ROOTSERVER_RELEASE}  ${OUT_TMP}/capdl-loader
-      Run Process                 tar    -C    ${OUT_TMP}  -cvhf  ${ROOTDIR}/${FLASH_RELEASE_TAR}  matcha-tock-bundle.bin  kernel  capdl-loader
-    END
-    Provides                    flash-tarball
-
-
-Test Shodan Boot
-    Requires                    flash-tarball
+Test Boot
     Prepare Machine
     Start Emulation
-    Create Terminal Tester      ${UART5}
+    Create Terminal Tester      ${SMC_UART}
     Wait For Prompt On Uart     EOF
     # The following commented lines would cause the test failed to be saved.
     Provides                    shodan-bootup
-
-# Test Smoke Test
-#     Requires                    shodan-bootup
-#     # UART analyzer is marked as transient so it needs to be set up at subtest.
-#     Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
-#     # Add UART5 virtual time so we can check the machine execution time
-#     Execute Command             uart5-analyzer TimestampFormat Virtual
-#     IF      ${RUN_DEBUG} == 1
-#       Write Line to Uart        test_mlexecute anything mobilenet_v1_emitc_static       waitForEcho=${WAIT_ECHO}
-#       Wait For LogEntry         "main returned: ", 0
-
-#       # Test timer
-#       Write Line To Uart        test_timer_blocking 10
-#       Wait For LogEntry         Timer completed.
-#     END
 
 Test C hello app (no SDK)
     Requires                    shodan-bootup
@@ -194,20 +91,18 @@ Test SDK + TimerService (oneshot & periodic)
 Test SDK + MlCoordinator (oneshot & periodic)
     Requires                    shodan-bootup
     # UART analyzer is marked as transient so it needs to be set up at subtest.
-    Execute Command             showAnalyzer "uart5-analyzer" ${UART5} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
-    # Add UART5 virtual time so we can check the machine execution time
-    Execute Command             uart5-analyzer TimestampFormat Virtual
+    Execute Command             showAnalyzer "smc-uart-analyzer" ${SMC_UART} Antmicro.Renode.Analyzers.LoggingUartAnalyzer
+    # Add SMC_UART virtual time so we can check the machine execution time
+    Execute Command             smc-uart-analyzer TimestampFormat Virtual
     Write Line to Uart          start mltest                                    waitForEcho=${WAIT_ECHO}
     Wait For Line On Uart       sdk_model_oneshot(nonexistent) returned Err(SDKNoSuchModel) (as expected)
     # start oneshot
-    Wait For Line On Uart       mobilenet_v1_emitc_static.model started
-    Wait For LogEntry           "main returned: ", 0
-    Wait For Line On Uart       mobilenet_v1_emitc_static.model completed
+    Wait For Line On Uart       ${MODEL_FILENAME} started
+    Wait For Line On Uart       ${MODEL_FILENAME} completed
     # start periodic
-    Wait For Line On Uart       Model mobilenet_v1_emitc_static.model started
+    Wait For Line On Uart       Model ${MODEL_FILENAME} started
     # NB: 10 runs of the model
     FOR    ${i}    IN RANGE    10
-      Wait For LogEntry         "main returned: ", 0
       Wait For Line On Uart     Model completed: mask 0b0001
     END
     Wait For Line On Uart       DONE

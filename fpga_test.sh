@@ -51,14 +51,18 @@ EOF
   exit 1
 }
 
-function cleanup {
-  rm -f "${TMP_TEST_SUITE}"
-}
-
 ROBOT=$(which robot)
-FPGA_HEADER="${ROOTDIR}/sim/tests/fpga_header.robot"
+TESTS_ROOT="${ROOTDIR}/sim/tests"
+FPGA_HEADER="${TESTS_ROOT}/fpga_header.robot"
+
+export PLATFORM="nexus"
 
 ARGS=()
+
+if [[ "$1" == "--platform" ]]; then
+  shift
+  export PLATFORM="$1"
+fi
 
 if [[ "$1" == "--no-echo-check" ]]; then
   shift
@@ -67,7 +71,7 @@ fi
 
 if [[ "$1" == "--timeout" ]]; then
   shift
-  ARGS+=(--variable "FPGA_UART_TIMEOUT:$1")
+  ARGS+=(--variable "LOG_TIMEOUT:$1")
   shift
 fi
 
@@ -97,10 +101,11 @@ if [[ ! -z "$1" ]]; then
   die "Unknown argument $1"
 fi
 
-trap cleanup EXIT
-TMP_TEST_SUITE=$(mktemp /tmp/test_suite.robot.XXXXXX)
-
-cat "${FPGA_HEADER}" "${TEST_SUITE}" > "${TMP_TEST_SUITE}"
-echo "${ROBOT}" "${ARGS[@]}" "${TMP_TEST_SUITE}"
-"${ROBOT}" "${ARGS[@]}" "${TMP_TEST_SUITE}" || exit 1
+TARGETDIR="${ROOTDIR}/out/fpga/${PLATFORM}"
+mkdir -p "${TARGETDIR}"
+cp -r "${TESTS_ROOT}"/* "${TARGETDIR}"
+cat "${FPGA_HEADER}" "${TEST_SUITE}" > "${TARGETDIR}"/tests.robot
+pushd "${TARGETDIR}"
+echo "${ROBOT}" "${ARGS[@]}" tests.robot
+"${ROBOT}" "${ARGS[@]}" tests.robot || exit 1
 
