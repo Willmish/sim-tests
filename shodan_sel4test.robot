@@ -43,6 +43,7 @@ Prepare Machine
       Execute Command             $tar=@${FLASH_TAR}
     END
     Execute Command             $cpio=@/dev/null
+    Execute Command             $sc_bin=@${OUT_TMP}/matcha-tock-bundle.bin
     Execute Script              ${SCRIPT}
 # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual

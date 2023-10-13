@@ -26,6 +26,7 @@ Prepare Machine
     Execute Command             $tar=@${FLASH_RELEASE_TAR}
     Execute Command             $cpio=@${CPIO_RELEASE}
     Execute Command             $kernel=@${CANTRIP_KERNEL_RELEASE}
+    Execute Command             $sc_bin=@${OUT_TMP}/matcha-tock-bundle.bin
     Set Default Uart Timeout    10
     Create Log Tester           ${LOG_TIMEOUT}
     Execute Script              ${SCRIPT}

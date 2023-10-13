@@ -51,6 +51,7 @@ Prepare Machine
       Set Default Uart Timeout    10
       Create Log Tester           ${LOG_TIMEOUT}
     END
+    Execute Command             $sc_bin=@${OUT_TMP}/matcha-tock-bundle.bin
     Execute Script              ${SCRIPT}
     # Add UART5 virtual time so we can check the machine execution time
     Execute Command             uart5-analyzer TimestampFormat Virtual
