@@ -85,7 +85,7 @@ if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
   usage
 fi
 
-FPGA_BOARD_ID="$(printf '%02d' $1)"
+FPGA_BOARD_ID="${1}"
 ARGS+=(--variable "FPGA_BOARD_ID:${FPGA_BOARD_ID}")
 shift
 TEST_SUITE="$1"
