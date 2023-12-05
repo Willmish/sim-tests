@@ -1,3 +1,3 @@
 from common_fpga import *
 
-MODEL_FILENAME = 'hello_world.kelvin'
+MODEL_FILENAME = 'conv1x1_test_emitc_static.kelvin'
