@@ -17,5 +17,5 @@
 # prepended to, and otherwise via command line arguments to the robot test
 # framework.
 Variables  variables/common_fpga.py
-Library  FPGALibrary.py  board_id=${FPGA_BOARD_ID}  timeout=${LOG_TIMEOUT}  quiesce_delay_seconds=${FPGA_QUIESCE_DELAY_SECONDS}
+Library  FPGALibrary.py  board_id=${NEXUS_ID}  timeout=${LOG_TIMEOUT}  quiesce_delay_seconds=${FPGA_QUIESCE_DELAY_SECONDS}
 
